@@ -414,7 +414,7 @@ os.system('eog ../figures/single_comp.svg')
 \newpage
 
 
-* Finite sampling of a Poisson process
+* Finite sampling of a Poisson process :noexport:
 :PROPERTIES:
 :CUSTOM_ID: finite-sampling
 :END:
@@ -712,7 +712,7 @@ dimensional second order polynom.
 # % \label{sec:acf-controls-spiking}
 
 
-* Dependency on the first two moments of the membrane potential fluctuations 
+* Dependency on the first two moments of the membrane potential fluctuations :noexport:
 :PROPERTIES:
 :CUSTOM_ID: muV-sV
 :END:
@@ -849,7 +849,7 @@ seen for the AdExp-RS neuron (see Figure [[fig-3D-space][6]]).
 \newpage
 
 
-* Dependency on the speed of the subthreshold fluctuations 
+* Dependency on the speed of the subthreshold fluctuations :noexport:
 :PROPERTIES:
 :CUSTOM_ID: Tv
 :END:
@@ -999,7 +999,7 @@ We introduce:
 \newpage
 
 
-* Dependency on the somatic input conductance
+* Dependency on the somatic input conductance :noexport:
 :PROPERTIES:
 :CUSTOM_ID: muG
 :END:
@@ -1097,7 +1097,7 @@ population.
 \newpage
 
 
-* Interplay of a conductance increase and faster fluctuations
+* Interplay of a conductance increase and faster fluctuations :noexport:
 :PROPERTIES:
 :CUSTOM_ID: muG-Tv
 :END:
@@ -1205,7 +1205,7 @@ the dependencies of the theoretical models}
 \newpage
 
 
-* Full data for the 3 dimensional analysis
+* Full data for the 3 dimensional analysis :noexport:
 
 #+BEGIN_LATEX
 \begin{figure*}[htb!]
@@ -1245,7 +1245,7 @@ See Section \ref{3D-space-response} \normalfont .}
 \newpage
 
 
-* Analysis of the fitted coefficients
+* Analysis of the fitted coefficients :noexport:
 :PROPERTIES:
 :CUSTOM_ID: fitting-coefficients
 :END:
@@ -1268,7 +1268,7 @@ with those of theoretical models of varying parameters.}
 \newpage
 
 
-* Robustness of the firing rate characterization
+* Robustness of the firing rate characterization :noexport:
 
 
 The minimal number of points in the dataset of /long/ recordings
@@ -1500,42 +1500,6 @@ fig.savefig('../figures/fitting_robustness2.pdf')
 
 
 
-* Nature of the observed heterogeneity, underlying structure ?
-:PROPERTIES:
-:CUSTOM_ID: heterogeneity
-:END:
-
-[...] to be written
-
-# --> FIGURE <-- #
-#+BEGIN_LATEX
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=.6\linewidth]{fig8.pdf}
-\caption{\bfseries Characteristics of the measured heterogenity.
-\normalfont \textbf{(A)} PCA analysis of data. 
-\textbf{(B)} Cross product of first component of the data
-with those of theoretical models of varying parameters.}
-\label{fig-heterogeneity}
-\end{figure}
-#+END_LATEX
-
-
-\newpage
-
-
-
-* Correlation between experimental conditions and functional properties
-
-Cross correlation between the quantities calculated and presented in
-[[exp-details]], with the functional quantities measured...
-
-
-* Theoretical models matching the experimental response 
-
-in the 5d params scan of the prameters, what is the model that
-minimize the difference with the data, what is the change of
-parameters that
 
 
 * Comparison of different strategy to capture the firing rate response :noexport:
@@ -2329,634 +2293,6 @@ year = {2004}
 \onecolumn
 \newpage
 # \twocolumn
-
-
-* Building Multi-Panel Figures :noexport:
-
-** Making the panel of the experimental characterization figure
-
-**** PANEL
-#+begin_src python
-import svgutils.transform as sg
-fig = sg.SVGFigure("14cm", "9.5cm")
-
-# load matpotlib-generated figures
-fig1 = sg.fromfile('../figures/cell_biocytin.svg')
-fig2 = sg.fromfile('../figures/full_exp.svg')
-fig3 = sg.fromfile('../figures/cell_trace.svg')
-fig4 = sg.fromfile('../figures/recording_length.svg')
-fig5 = sg.fromfile('../figures/vc_protocol.svg')
-fig6 = sg.fromfile('../figures/fi_curve.svg')
-fig7 = sg.fromfile('../figures/fi_curve_traces.svg')
-
-
-# get the plot objects
-plot1 = fig1.getroot();plot1.moveto(16, 2, scale=0.04)
-plot2 = fig2.getroot();plot2.moveto(250, 5, scale=.9)
-plot3 = fig3.getroot();plot3.moveto(0, 170, scale=1)
-plot4 = fig4.getroot();plot4.moveto(165, 90, scale=.76)
-plot5 = fig5.getroot();plot5.moveto(66, 95, scale=.6)
-plot6 = fig6.getroot();plot6.moveto(70, 10, scale=.55)
-plot7 = fig7.getroot();plot7.moveto(170, 0, scale=.28)
-
-# add text labels
-txt1 = sg.TextElement(0,15, "A", size=14, weight="bold")
-txt2 = sg.TextElement(240,15, "E", size=14, weight="bold")
-txt3 = sg.TextElement(0,185, "F", size=14, weight="bold")
-txt4 = sg.TextElement(65,95, "C", size=14, weight="bold")
-txt5 = sg.TextElement(160,95, "D", size=14, weight="bold")
-txt6 = sg.TextElement(65,15, "B", size=14, weight="bold")
-
-# append plots and labels to figure
-fig.append([plot1, plot3, plot5, plot6, plot7, plot2, plot4])
-fig.append([txt1, txt2, txt3, txt4, txt5, txt6])
-
-# save generated SVG files
-fig.save("fig1.svg")
-
-import os
-os.system('inkscape --export-pdf=fig1.pdf fig1.svg')
-os.system('eog fig1.svg')
-# os.system('rm fig1.svg')
-#+end_src
-
-#+RESULTS:
-: None
-
-     
-**** CELL ACCESS FIGURE
-#+begin_src python
-import sys
-import matplotlib.pylab as plt
-import numpy as np
-sys.path.append('../experimental_data/')
-from first_paper_fig import fancy_VC_membrane_test
-DATAFILE = '/media/yann/DATA_EqAlain/files/DATA/2015_2_17/21_24_40_VC_MEMBRANETEST1.DAT'
-fig1 = fancy_VC_membrane_test(DATAFILE,FIGSIZE=(2,1.5), FONTSIZE=12)
-plt.show()
-fig1.savefig('../figures/vc_protocol.svg', format='svg', transparent=True)
-#+end_src
-
-#+RESULTS:
-: None
-
-
-**** MEMBRANE PROP FIGURE
-#+begin_src python
-# fig2 = funcs.fancy_IC_membrane_test(cell_params['ROOT_FOLDER']+cell_params['IC_datafile'],\
-#                                     FIGSIZE=(6,3.6))
-# fig2.savefig('../figures/ic_protocol.svg', format='svg', transparent=True)
-import svgutils.transform as sg
-import sys 
-fig = sg.SVGFigure("18cm", "15cm")
-# load matpotlib-generated figures
-fig1 = sg.fromfile('../figures/cell_biocytin.svg')
-fig2 = sg.fromfile('../figures/full_exp.svg')
-fig3 = sg.fromfile('../figures/cell_trace.svg')
-
-# get the plot objects
-plot1 = fig1.getroot()
-plot1.moveto(20, 20, scale=0.1)
-plot2 = fig2.getroot()
-plot2.moveto(280, 0, scale=0.5)
-plot3 = fig3.getroot()
-plot3.moveto(10, 0, scale=0.5)
-
-# add text labels
-txt1 = sg.TextElement(25,20, "A", size=12, weight="bold")
-txt2 = sg.TextElement(305,20, "B", size=12, weight="bold")
-
-# append plots and labels to figure
-fig.append([plot1, plot2])
-fig.append([txt1, txt2])
-
-# save generated SVG files
-fig.save("fig1.svg")
-
-import os
-os.system('eog fig1.svg')
-# os.system('inkscape --export-pdf=fig1.pdf fig1.svg')
-# os.system('rm fig1.svg')
-#+end_src
-#+RESULTS:
-: None
-
-[[file:fig1.pdf]]
-
-
-**** FI-CURVE FIGURE
-
-***** REAL FI CURVE
-#+begin_src python
-FONTSIZE=16
-import matplotlib
-font = {'size'   : FONTSIZE}
-matplotlib.rc('font', **font)
-import sys
-import matplotlib.pylab as plt
-import numpy as np
-sys.path.append('/home/yann/work/python_library/')
-from my_graph import adjust_spines, cm2inch
-import classic_electrophy as ce
-DATAFILE = '/media/yann/DATA_EqAlain/files/DATA/2015_2_16/20_39_26_FI-CURVE1.DAT'
-II, FF = ce.FI_curve_analysis(DATAFILE, crossing=-30, return_fig=False)
-plt.figure(figsize=cm2inch(6,5))
-plt.subplots_adjust(top=.95, right=.95,left=0.28, bottom=0.3)
-ax = plt.subplot(111)
-II.insert(0, 0)
-FF.insert(0, 0)
-plt.plot(II, FF, 'kD-', ms=4)
-plt.plot([II[4], II[8]], [FF[4],FF[8]], 'ko', ms=7, lw=0)
-plt.ylim([-1,32]);plt.ylabel('$\\nu_\mathrm{out}$ (Hz)')
-plt.yticks([0,10,20,30])
-plt.xlim([-10,210]);plt.xlabel('current (pA)')
-plt.xticks([0,100,200])
-adjust_spines(ax, ['left','bottom'])
-plt.savefig('../figures/fi_curve.svg', format='svg', transparent=True)
-#plt.show()
-#+end_src
-
-#+RESULTS:
-: None
-
-
-***** VM TRACES
-#+begin_src python
-FONTSIZE=24
-import matplotlib
-font = {'size'   : FONTSIZE}
-matplotlib.rc('font', **font)
-import sys
-import matplotlib.pylab as plt
-import numpy as np
-sys.path.append('/home/yann/work/python_library/')
-from my_graph import adjust_spines, cm2inch
-import elphy_to_python as ep
-DATAFILE = '/media/yann/DATA_EqAlain/files/DATA/2015_2_16/20_39_26_FI-CURVE1.DAT'
-t, data = ep.get_signals_episode(DATAFILE)
-i0, i1 = int(300/(t[1]-t[0])), int(1400/(t[1]-t[0]))
-plt.figure(figsize=cm2inch(8,10))
-plt.subplots_adjust(top=1, right=1,left=0, bottom=0)
-ax = plt.subplot(111)
-plt.plot(t[i0:i1], data[7][0][i0:i1], 'k-', lw=1)
-plt.plot(t[i0:i1], data[3][0][i0:i1]-data[7][0].min()+10, 'k-', lw=1)
-plt.plot([800,1000],[-50,-50], 'k-', lw=3)
-plt.plot([800,800],[-50,-40], 'k-', lw=3)
-plt.annotate('10mV', (460,-50), fontsize=FONTSIZE)
-plt.annotate('200ms', (800,-65), fontsize=FONTSIZE)
-plt.ylim([-70,110])
-adjust_spines(ax, [])
-plt.savefig('../figures/fi_curve_traces.svg', format='svg', transparent=True)
-#plt.show()
-#+end_src
-#+RESULTS:
-: None
-
-[[file:fig1.pdf]]
-
-
-**** VM TRACES AND MONITORING FIGURE
-#+begin_src python
-FONTSIZE = 10
-import sys
-import matplotlib.pylab as plt
-sys.path.append('../experimental_data/')
-from first_paper_fig import make_single_example_figs
-# sizes of figures in cm !
-fig3, fig4 = make_single_example_figs(FIG3 = [17,6], FIG4=[9,6.5], FONTSIZE = FONTSIZE)
-plt.show()
-fig3.savefig('../figures/cell_trace.svg', format='svg', transparent=True)
-fig4.savefig('../figures/full_exp.svg', format='svg', transparent=True)
-#+end_src
-
-#+RESULTS:
-: None
-
-
-**** RECORDING LENGTH FIGURE
-#+begin_src python
-import sys
-import matplotlib.pylab as plt
-import numpy as np
-sys.path.append('../experimental_data/')
-from dataset_structure import make_recording_length_fig
-data = np.load('../experimental_data/dataset.npy')
-RS = data[5]
-fig = make_recording_length_fig(RS, FIGSIZE=(4.4,3.5), FONTSIZE=10)
-fig.subplots_adjust(bottom=0.3, left=0.24, top=0.95, right=0.96)
-fig.savefig('../figures/recording_length.svg',format='svg',transparent=True)
-plt.show()
-#+end_src
-
-#+RESULTS:
-: None
-
-
-
-
-*** Merged muG and Tv panel (model+exp)
-
-
-*** (muV-sV) panel (model+exp)
-
-**** PANEL
-#+begin_src python
-import svgutils.transform as sg
-fig = sg.SVGFigure("16cm", "10cm")
-
-# load matpotlib-generated figures
-fig1 = sg.fromfile('../figures/muV_sV_firing.svg')
-fig2 = sg.fromfile('../figures/muV_sV_subthreshold.svg')
-fig3 = sg.fromfile('../figures/muV_sV_firing_exps.svg')
-fig4 = sg.fromfile('../figures/muV_sV_subthreshold_exps.svg')
-fig5 = sg.fromfile('../dependency_muV_sV/data/5.svg')
-fig6 = sg.fromfile('../dependency_muV_sV/data/6.svg')
-fig7 = sg.fromfile('../dependency_muV_sV/data/9.svg')
-
-# get the plot objects
-plot1 = fig1.getroot();plot1.moveto(2, 2, scale=.45)
-plot2 = fig2.getroot();plot2.moveto(15, 140, scale=.4)
-plot3 = fig3.getroot();plot3.moveto(210, 2, scale=.45)
-plot4 = fig4.getroot();plot4.moveto(225, 140, scale=.4)
-plot5 = fig5.getroot();plot5.moveto(350, 2, scale=.35)
-plot6 = fig6.getroot();plot6.moveto(350, 110, scale=.35)
-plot7 = fig7.getroot();plot7.moveto(350, 220, scale=.35)
-
-# add text labels
-txt1 = sg.TextElement(0,15, "A", size=14, weight="bold")
-txt2 = sg.TextElement(240,15, "E", size=14, weight="bold")
-txt3 = sg.TextElement(0,185, "F", size=14, weight="bold")
-txt4 = sg.TextElement(65,95, "C", size=14, weight="bold")
-txt5 = sg.TextElement(160,95, "D", size=14, weight="bold")
-txt6 = sg.TextElement(65,15, "B", size=14, weight="bold")
-
-# append plots and labels to figure
-fig.append([plot1, plot3, plot5, plot6, plot7, plot2, plot4])
-fig.append([txt1, txt2, txt3, txt4, txt5, txt6])
-
-# save generated SVG files
-fig.save("fig2.svg")
-
-
-import os
-os.system('inkscape --export-pdf=fig2.pdf fig2.svg')
-os.system('eog fig2.svg')
-# os.system('rm fig2.svg')
-#+end_src
-
-#+RESULTS:
-: None
-
-
-
-
-*** muG panel (model+exp)
-    
-**** PANEL
-#+begin_src python
-import sys
-sys.path.append('/home/yann/work/transfer_functions/final_transfer_functions/muG_effect')
-import experimental_data as exp
-import main_paper_fig as th
-
-import svgutils.transform as sg
-import os
-fig = sg.SVGFigure("10cm", "17cm")
-
-# load matpotlib-generated figures
-fig1 = sg.fromfile('../figures/muG_model_firing.svg')
-fig2 = sg.fromfile('../figures/muG_model_subthre.svg')
-fig3  = sg.fromfile('../figures/muG_data_full_spiking.svg')
-fig4 = sg.fromfile('../figures/muG_data_full_subthre.svg')
-fig5 = sg.fromfile('../figures/muG_data_full_vthre.svg')
-fig6 = sg.fromfile('../figures/muG_data_full_hist.svg')
-
-# get the plot objects
-plot1 = fig1.getroot();plot1.moveto(2, 2, scale=.48)
-plot2 = fig2.getroot();plot2.moveto(2, 115, scale=.48)
-plot3 = fig3.getroot();plot3.moveto(140, 2, scale=.5)
-plot4 = fig4.getroot();plot4.moveto(140, 140, scale=.5)
-plot5 = fig5.getroot();plot5.moveto(140, 290, scale=.5)
-plot6 = fig6.getroot();plot6.moveto(80, 400, scale=.5)
-
-# add text labels
-txt1 = sg.TextElement(0,15, "A", size=14, weight="bold")
-txt2 = sg.TextElement(0,110, "B", size=14, weight="bold")
-txt3 = sg.TextElement(145,15, "C", size=14, weight="bold")
-txt4 = sg.TextElement(145,120, "D", size=14, weight="bold")
-txt5 = sg.TextElement(145,295, "E", size=14, weight="bold")
-txt6 = sg.TextElement(100,395, "F", size=14, weight="bold")
-
-# append plots and labels to figure
-fig.append([plot1, plot2, plot3, plot4, plot5, plot6])
-fig.append([txt1, txt2, txt3, txt4, txt5, txt6])
-
-# save generated SVG files
-fig.save("fig3.svg")
-
-
-# os.system('inkscape --export-pdf=fig3.pdf fig3.svg')
-os.system('eog fig3.svg')
-# os.system('rm fig2.svg')
-#+end_src
-
-#+RESULTS:
-: None
-
-
-
-     
-
-*** Tv panel (model+exp)
-
-**** PANEL
-#+begin_src python
-import sys
-sys.path.append('/home/yann/work/transfer_functions/final_transfer_functions/muG_effect')
-import experimental_data as exp
-import main_paper_fig as th
-
-import svgutils.transform as sg
-import os
-fig = sg.SVGFigure("10cm", "17cm")
-
-# load matpotlib-generated figures
-fig1 = sg.fromfile('../figures/Tv_model_firing.svg')
-fig2 = sg.fromfile('../figures/Tv_model_subthre.svg')
-fig3  = sg.fromfile('../figures/Tv_data_full_spiking.svg')
-fig4 = sg.fromfile('../figures/Tv_data_full_subthre.svg')
-fig5 = sg.fromfile('../figures/Tv_data_full_vthre.svg')
-fig6 = sg.fromfile('../figures/Tv_data_full_hist.svg')
-
-# get the plot objects
-plot1 = fig1.getroot();plot1.moveto(2, 2, scale=.48)
-plot2 = fig2.getroot();plot2.moveto(2, 115, scale=.48)
-plot3 = fig3.getroot();plot3.moveto(140, 2, scale=.5)
-plot4 = fig4.getroot();plot4.moveto(140, 140, scale=.5)
-plot5 = fig5.getroot();plot5.moveto(140, 290, scale=.5)
-plot6 = fig6.getroot();plot6.moveto(80, 400, scale=.5)
-
-# add text labels
-txt1 = sg.TextElement(0,15, "A", size=14, weight="bold")
-txt2 = sg.TextElement(0,110, "B", size=14, weight="bold")
-txt3 = sg.TextElement(145,15, "C", size=14, weight="bold")
-txt4 = sg.TextElement(145,120, "D", size=14, weight="bold")
-txt5 = sg.TextElement(145,295, "E", size=14, weight="bold")
-txt6 = sg.TextElement(100,395, "F", size=14, weight="bold")
-
-# append plots and labels to figure
-fig.append([plot1, plot2, plot3, plot4, plot5, plot6])
-fig.append([txt1, txt2, txt3, txt4, txt5, txt6])
-
-# save generated SVG files
-fig.save("fig4.svg")
-
-
-# os.system('inkscape --export-pdf=fig4.pdf fig4.svg')
-os.system('eog fig4.svg')
-# os.system('rm fig4.svg')
-#+end_src
-
-#+RESULTS:
-: None
-
-
-
-     
-
-
-*** muG-Tv panel (model+exp)
-
-**** PANEL
-#+begin_src python
-import sys
-import svgutils.transform as sg
-import os
-fig = sg.SVGFigure("10cm", "17cm")
-
-# load matpotlib-generated figures
-fig1 = sg.fromfile('../figures/muG_Tv_model_firing.svg')
-fig2 = sg.fromfile('../figures/muG_Tv_model_subthre.svg')
-fig3  = sg.fromfile('../figures/muG_Tv_data_full_spiking.svg')
-fig4 = sg.fromfile('../figures/muG_Tv_data_full_subthre.svg')
-fig5 = sg.fromfile('../figures/muG_Tv_data_full_vthre.svg')
-fig6 = sg.fromfile('../figures/muG_Tv_data_full_hist.svg')
-
-# get the plot objects
-plot1 = fig1.getroot();plot1.moveto(2, 2, scale=.48)
-plot2 = fig2.getroot();plot2.moveto(2, 115, scale=.48)
-plot3 = fig3.getroot();plot3.moveto(140, 2, scale=.5)
-plot4 = fig4.getroot();plot4.moveto(140, 140, scale=.5)
-plot5 = fig5.getroot();plot5.moveto(140, 290, scale=.5)
-plot6 = fig6.getroot();plot6.moveto(80, 400, scale=.5)
-
-# add text labels
-txt1 = sg.TextElement(0,15, "A", size=14, weight="bold")
-txt2 = sg.TextElement(0,110, "B", size=14, weight="bold")
-txt3 = sg.TextElement(145,15, "C", size=14, weight="bold")
-txt4 = sg.TextElement(145,120, "D", size=14, weight="bold")
-txt5 = sg.TextElement(145,295, "E", size=14, weight="bold")
-txt6 = sg.TextElement(100,395, "F", size=14, weight="bold")
-
-# append plots and labels to figure
-fig.append([plot1, plot2, plot3, plot4, plot5, plot6])
-fig.append([txt1, txt2, txt3, txt4, txt5, txt6])
-
-# save generated SVG files
-fig.save("fig5.svg")
-
-
-# os.system('inkscape --export-pdf=fig5.pdf fig5.svg')
-os.system('eog fig5.svg')
-# os.system('rm fig5.svg')
-#+end_src
-
-#+RESULTS:
-: None
-
-
-
-     
-
-
-*** 3D panel (model+exp)
-
-**** PANEL
-#+begin_src python
-import sys
-import svgutils.transform as sg
-import os
-fig = sg.SVGFigure("10cm", "17cm")
-
-# load matpotlib-generated figures
-fig1 = sg.fromfile('../figures/muG_Tv_model_firing.svg')
-fig2 = sg.fromfile('../figures/muG_Tv_model_subthre.svg')
-fig3  = sg.fromfile('../figures/muG_Tv_data_full_spiking.svg')
-fig4 = sg.fromfile('../figures/muG_Tv_data_full_subthre.svg')
-fig5 = sg.fromfile('../figures/muG_Tv_data_full_vthre.svg')
-fig6 = sg.fromfile('../figures/muG_Tv_data_full_hist.svg')
-
-# get the plot objects
-plot1 = fig1.getroot();plot1.moveto(2, 2, scale=.48)
-plot2 = fig2.getroot();plot2.moveto(2, 115, scale=.48)
-plot3 = fig3.getroot();plot3.moveto(140, 2, scale=.5)
-plot4 = fig4.getroot();plot4.moveto(140, 140, scale=.5)
-plot5 = fig5.getroot();plot5.moveto(140, 290, scale=.5)
-plot6 = fig6.getroot();plot6.moveto(80, 400, scale=.5)
-
-# add text labels
-txt1 = sg.TextElement(0,15, "A", size=14, weight="bold")
-txt2 = sg.TextElement(0,110, "B", size=14, weight="bold")
-txt3 = sg.TextElement(145,15, "C", size=14, weight="bold")
-txt4 = sg.TextElement(145,120, "D", size=14, weight="bold")
-txt5 = sg.TextElement(145,295, "E", size=14, weight="bold")
-txt6 = sg.TextElement(100,395, "F", size=14, weight="bold")
-
-# append plots and labels to figure
-fig.append([plot1, plot2, plot3, plot4, plot5, plot6])
-fig.append([txt1, txt2, txt3, txt4, txt5, txt6])
-
-# save generated SVG files
-fig.save("fig5.svg")
-
-
-# os.system('inkscape --export-pdf=fig5.pdf fig5.svg')
-os.system('eog fig5.svg')
-# os.system('rm fig5.svg')
-#+end_src
-
-#+RESULTS:
-: None
-
-
-
-     
-
-
-*** Fitting coeff panel (model+exp)
-
-**** PANEL
-#+begin_src python
-import sys
-sys.path.append('../3d_scan/')
-from plots_for_exp import make_four_histogram
-
-fig0, fig1, fig2, fig3 = \
-          make_four_histogram(with_models=\
-                    ['LIF', 'EIF', 'sfaLIF', 'sbtaLIF', 'iLIF'], FIGSIZE=(8,6),\
-                             path = '../3d_scan/')
-fig0.savefig('../figures/0.svg', format='svg')
-fig1.savefig('../figures/1.svg', format='svg')
-fig2.savefig('../figures/2.svg', format='svg')
-fig3.savefig('../figures/3.svg', format='svg')
-
-import svgutils.transform as sg
-import os
-fig = sg.SVGFigure("18cm", "4cm")
-
-
-# load matpotlib-generated figures
-fig1 = sg.fromfile('../figures/0.svg')
-fig2 = sg.fromfile('../figures/1.svg')
-fig3  = sg.fromfile('../figures/2.svg')
-fig4 = sg.fromfile('../figures/3.svg')
-
-# get the plot objects
-plot1 = fig1.getroot();plot1.moveto(2, 2, scale=.5)
-plot2 = fig2.getroot();plot2.moveto(130, 2, scale=.5)
-plot3 = fig3.getroot();plot3.moveto(260, 2, scale=.5)
-plot4 = fig4.getroot();plot4.moveto(390, 2, scale=.5)
-
-# add text labels
-txt1 = sg.TextElement(0,10, "A", size=14, weight="bold")
-txt2 = sg.TextElement(120,10, "B", size=14, weight="bold")
-txt3 = sg.TextElement(250,10, "C", size=14, weight="bold")
-txt4 = sg.TextElement(380,10, "D", size=14, weight="bold")
-
-# append plots and labels to figure
-fig.append([plot1, plot2, plot3, plot4])
-fig.append([txt1, txt2, txt3, txt4])
-
-# save generated SVG files
-fig.save("fig_3d_coeff.svg")
-
-
-# os.system('inkscape --export-pdf=fig_3d_coeff.svg fig_3d_coeff.pdf)
-os.system('eog fig_3d_coeff.svg')
-# os.system('rm fig5.svg')
-#+end_src
-
-#+RESULTS:
-: None
-
-
-
-     
-
-**** export-pdf
-
-#+begin_src python
-import os
-os.system('inkscape --export-pdf=fig_3d_coeff.pdf fig_3d_coeff.svg')
-#os.system('rm fig_3d_coeff.svg')
-#+end_src
-
-#+RESULTS:
-: None
-
-
-*** Heterogenity panel (model+exp)
-
-**** PANEL
-#+begin_src python
-import sys
-import svgutils.transform as sg
-import os
-fig = sg.SVGFigure("10cm", "17cm")
-
-# load matpotlib-generated figures
-fig1 = sg.fromfile('../figures/muG_Tv_model_firing.svg')
-fig2 = sg.fromfile('../figures/muG_Tv_model_subthre.svg')
-fig3  = sg.fromfile('../figures/muG_Tv_data_full_spiking.svg')
-fig4 = sg.fromfile('../figures/muG_Tv_data_full_subthre.svg')
-fig5 = sg.fromfile('../figures/muG_Tv_data_full_vthre.svg')
-fig6 = sg.fromfile('../figures/muG_Tv_data_full_hist.svg')
-
-# get the plot objects
-plot1 = fig1.getroot();plot1.moveto(2, 2, scale=.48)
-plot2 = fig2.getroot();plot2.moveto(2, 115, scale=.48)
-plot3 = fig3.getroot();plot3.moveto(140, 2, scale=.5)
-plot4 = fig4.getroot();plot4.moveto(140, 140, scale=.5)
-plot5 = fig5.getroot();plot5.moveto(140, 290, scale=.5)
-plot6 = fig6.getroot();plot6.moveto(80, 400, scale=.5)
-
-# add text labels
-txt1 = sg.TextElement(0,15, "A", size=14, weight="bold")
-txt2 = sg.TextElement(0,110, "B", size=14, weight="bold")
-txt3 = sg.TextElement(145,15, "C", size=14, weight="bold")
-txt4 = sg.TextElement(145,120, "D", size=14, weight="bold")
-txt5 = sg.TextElement(145,295, "E", size=14, weight="bold")
-txt6 = sg.TextElement(100,395, "F", size=14, weight="bold")
-
-# append plots and labels to figure
-fig.append([plot1, plot2, plot3, plot4, plot5, plot6])
-fig.append([txt1, txt2, txt3, txt4, txt5, txt6])
-
-# save generated SVG files
-fig.save("fig5.svg")
-
-
-# os.system('inkscape --export-pdf=fig5.pdf fig5.svg')
-os.system('eog fig5.svg')
-# os.system('rm fig5.svg')
-#+end_src
-
-#+RESULTS:
-: None
-
-
-
-     
 
 
 * Preamble (options for LaTeX formatting) :noexport:

@@ -45,11 +45,11 @@ for i in range(len(cells)):
         E[i,:] = np.array(get_mean_encoding_power(P, data['El'], data['Gl'], data['Cm']))
                 
 AX[0].plot([-70, -40], [-70, -40], 'r-', lw=3)
-AX[1].plot([0, 8], [0, 8], 'r-', lw=3)
+AX[1].plot([0, 9], [0, 9], 'r-', lw=3)
 AX[2].plot([10, 120], [10, 120], 'r-', lw=3)
 
 for ax, label, lim in zip(AX[:2], ['$\mu_V$', '$\sigma_V$'],\
-                          [[-75,-35], [0.5,8.5]]):
+                          [[-75,-35], [0,9.5]]):
         set_plot(ax, xlim=lim, ylim=lim,\
                  xlabel=label+' desired (mV)', ylabel=label+' observed (mV)')
 set_plot(AX[2], ylim=[0.,200.],\
