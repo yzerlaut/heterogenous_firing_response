@@ -122,6 +122,9 @@ if __name__=='__main__':
                                 data['muGn'], data['Gl'], data['Cm'],
                                 data['El'], print_things=True)
 
+    print data['TvN_exp']
+    
+    
     ##### PLOTTING #####
     # see plotting_tools.py
     # need non SI units (electrophy units) !!!

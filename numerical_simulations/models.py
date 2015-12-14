@@ -37,7 +37,7 @@ def get_model_params(MODEL, params):
         # no spiking dynamics
         params['vspike'], params['vthresh'], params['delta_v'] =100, 100, 0
         params['Ai'], params['a'], params['b'] = 0, 0, 0 # no non linear mech
-        params['name'] = 'subthreshold'
+        params['name'] = 'RC-circuit'
 
         """ ======== INTEGRATE AND FIRE ============ """
     elif MODEL2.split('-')[0]=='LIF':
