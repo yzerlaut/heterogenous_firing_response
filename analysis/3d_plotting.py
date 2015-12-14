@@ -98,3 +98,37 @@ def make_3d_and_2d_figs(P, Fout, s_Fout, muV, sV, Tv_ratio,\
 
     return fig1
 
+if __name__=='__main__':
+    # for spiking properties, what model ?? see models.py
+    import argparse
+    parser=argparse.ArgumentParser(description=
+     """ 
+     Stimulate a reconstructed cell with a shotnoise and study Vm dynamics
+     """
+    ,formatter_class=argparse.RawTextHelpFormatter)
+    
+    parser.add_argument("NEURON",\
+                        help="Choose a cell (e.g. 'cell1') or a model of neuron (e.g. 'LIF')", default='LIF')
+
+    args = parser.parse_args()
+    
+    data = np.load('../data/'+args.NEURON+'.npz')
+
+    ##### FITTING OF THE PHENOMENOLOGICAL THRESHOLD #####
+    # two-steps procedure, see template_and_fitting.py
+    # need SI units !!!
+    P = fitting_Vthre_then_Fout(data['Fout'], 1e-3*data['muV'],\
+                                1e-3*data['sV'], data['TvN'],\
+                                data['muGn'], data['Gl'], data['Cm'],
+                                data['El'], print_things=True)
+
+    ##### PLOTTING #####
+    # see plotting_tools.py
+    # need non SI units (electrophy units) !!!
+    FIG = make_3d_and_2d_figs(P,\
+            data['Fout'], data['s_Fout'], data['muV'],\
+            data['sV'], data['TvN'], data['muGn'],\
+            data['Gl'], data['Cm'], data['El'], args.NEURON)
+
+
+    plt.show()

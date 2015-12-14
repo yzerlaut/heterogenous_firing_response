@@ -55,6 +55,7 @@ def make_simulation_for_model(MODEL, return_output=False,\
 
     Fout = np.zeros((DISCRET_sV, DISCRET_muV, DISCRET_muG, len(SEED)))
 
+    muV_exp, sV_exp, TvN_exp = 0*muV, 0*muV, 0*muV                
 
     for i_muV in range(DISCRET_muV):
         print '[[[[]]]]=====> muV : ', round(1e3*muV[0, i_muV, 0],1), 'mV'
@@ -81,10 +82,24 @@ def make_simulation_for_model(MODEL, return_output=False,\
         return np.array([MODEL, f, Q, Ts, muGn, muV, sV, Ts_ratio,\
                       Fout, sim_params])
     else:
-        data_path = '../data/'+MODEL+'_sim.npy'
+        data_path = '../data/'+MODEL+'.npz'
+                      
         np.save(data_path,\
             np.array([MODEL, f, Q, Ts, muGn, muV, sV, Ts_ratio,\
                       Fout, sim_params]))
+                      
+        D = dict(muV=1e3*muV.flatten(), sV=1e3*sV.flatten(),\
+                 TvN=Ts_ratio+1./muGn.flatten(),\
+                 muGn=muGn.flatten(),\
+                 Fout=Fout.mean(axis=-1).flatten(),\
+                 s_Fout=Fout.std(axis=-1).flatten(),\
+                 muV_exp=1e3*muV_exp.flatten(),\
+                 sV_exp=1e3*sV_exp.flatten(),\
+                 TvN_exp=TvN_exp.flatten(),\
+                 MODEL=MODEL,\
+                 Gl=params['Gl'], Cm=params['Cm'], El=params['El'])
+        
+        np.savez(data_path,**D)    
 
 if __name__=='__main__':
     # for spiking properties, what model ?? see models.py
@@ -99,7 +114,7 @@ if __name__=='__main__':
     parser.add_argument("-t", "--WITH_TM_VARIATIONS",\
                         help="we vary tm", action="store_false")
     parser.add_argument("--precision", default='low',\
-                        help="")
+                        help="turn to 'high' for simulations as in the paper")
 
     args = parser.parse_args()
     
