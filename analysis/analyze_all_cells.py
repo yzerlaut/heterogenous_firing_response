@@ -4,7 +4,7 @@ import matplotlib as mpl
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import MaxNLocator
 
-from 3d_plotting import make_3d_and_2d_figs
+from threeD_plotting import make_3d_and_2d_figs
 
 # modulus in SI units
 from template_and_fitting import erfc_func, fitting_Vthre_then_Fout,\
