@@ -6,13 +6,9 @@ import sys
 sys.path.append('../analysis/')
 from measures import measuring_subthre_dynamics
 
-DISCRET_muV, DISCRET_sV= 4, 8
-DISCRET_TvN= 4 # in those three dimensions, only the autocorrelation is varied
 
-
-def make_simulation_for_model(MODEL, return_output=False,\
+def make_simulation_for_model(MODEL, args, return_output=False,\
                               precision='low'):
-
 
     if precision is 'low':
         # discretization and seed
@@ -26,6 +22,9 @@ def make_simulation_for_model(MODEL, return_output=False,\
     params = models.get_model_params(MODEL, {}) # paramters of the model, see models.py
         
     ### PARAMETERS OF THE EXPERIMENT
+    if args.RANGE_FOR_3D is None:
+        params['RANGE_FOR_3D'] = args.RANGE_FOR_3D
+        
     muV_min, muV_max, sV_min1, sV_max1, sV_min2, sV_max2, Ts_ratio = params['RANGE_FOR_3D']
     muGn_min, muGn_max = 1.15, 8.
 
@@ -33,34 +32,34 @@ def make_simulation_for_model(MODEL, return_output=False,\
     sim_params = {'dt':dt, 'tstop':tstop}
     t_long = np.arange(0,int(tstop/dt))*dt
 
-    muV = np.linspace(muV_min, muV_max, DISCRET_muV, endpoint=True)
+    muV = np.linspace(muV_min, muV_max, args.DISCRET_muV, endpoint=True)
 
     # trying with the linear autocorrelation 
-    DISCRET_muG = DISCRET_TvN
-    Tv_ratio = np.linspace(1./muGn_max+Ts_ratio, 1./muGn_min+Ts_ratio, DISCRET_muG, endpoint=True)
+    args.DISCRET_muG = args.DISCRET_TvN
+    Tv_ratio = np.linspace(1./muGn_max+Ts_ratio, 1./muGn_min+Ts_ratio, args.DISCRET_muG, endpoint=True)
     muGn = 1./(Tv_ratio-Ts_ratio)
 
-    muV, sV, muGn = np.meshgrid(muV, np.zeros(DISCRET_sV), muGn)
+    muV, sV, muGn = np.meshgrid(muV, np.zeros(args.DISCRET_sV), muGn)
     Tv_ratio = Ts_ratio+1./muGn
 
-    for i in range(DISCRET_muV):
-        sv1 = sV_min1+i*(sV_min2-sV_min1)/(DISCRET_muV-1)
-        sv2 = sV_max1+i*(sV_max2-sV_max1)/(DISCRET_muV-1)
-        for l in range(DISCRET_muG):
-            sV[:,i,l] = np.linspace(sv1,sv2,DISCRET_sV,endpoint=True)
+    for i in range(args.DISCRET_muV):
+        sv1 = sV_min1+i*(sV_min2-sV_min1)/(args.DISCRET_muV-1)
+        sv2 = sV_max1+i*(sV_max2-sV_max1)/(args.DISCRET_muV-1)
+        for l in range(args.DISCRET_muG):
+            sV[:,i,l] = np.linspace(sv1,sv2,args.DISCRET_sV,endpoint=True)
 
     I0, Gs, f, Q, Ts = params_variations_calc(muGn,muV,sV,Ts_ratio*np.ones(muGn.shape),params)
 
-    Fout = np.zeros((DISCRET_sV, DISCRET_muV, DISCRET_muG, len(SEED)))
+    Fout = np.zeros((args.DISCRET_sV, args.DISCRET_muV, args.DISCRET_muG, len(SEED)))
 
     # measuring the subthreshold fluctuations properties
     muV_exp, sV_exp, TvN_exp = 0*Fout, 0*Fout, 0*Fout
 
-    for i_muV in range(DISCRET_muV):
+    for i_muV in range(args.DISCRET_muV):
         print '[[[[]]]]=====> muV : ', round(1e3*muV[0, i_muV, 0],1), 'mV'
-        for i_sV in range(DISCRET_sV):
+        for i_sV in range(args.DISCRET_sV):
             print '[[[]]]====> sV : ', round(1e3*sV[i_sV, i_muV, 0],1), 'mV'
-            for ig in range(DISCRET_muG):
+            for ig in range(args.DISCRET_muG):
                 print '[]=> muGn : ', round(muGn[i_sV, i_muV, ig],1),\
                     'TvN : ', round(100*Tv_ratio[i_sV, i_muV, ig],1), '%'
                 for i_s in range(len(SEED)):
@@ -116,6 +115,14 @@ if __name__=='__main__':
                         help="we vary tm", action="store_false")
     parser.add_argument("--precision", default='low',\
                         help="turn to 'high' for simulations as in the paper")
+    parser.add_argument("--DISCRET_muV", default=4, type=int,\
+                        help="discretization of the 3d grid for muV")
+    parser.add_argument("--DISCRET_sV", default=8, type=int,\
+                        help="discretization of the 3d grid for sV")
+    parser.add_argument("--DISCRET_TvN", default=4, type=int,\
+                        help="discretization of the 3d grid for TvN")
+    parser.add_argument("--RANGE_FOR_3D", default=None, nargs='*',\
+                        help="possibility to explicitely set the 3D range scanned")
 
     args = parser.parse_args()
     
@@ -124,12 +131,12 @@ if __name__=='__main__':
     if args.WITH_TM_VARIATIONS:
         def make_sim(MODEL):
             print 'by default we vary Tm !!'
-            make_simulation_for_model(MODEL, precision=args.precision)
-            make_simulation_for_model(MODEL+'__minus', precision=args.precision)
-            make_simulation_for_model(MODEL+'__plus', precision=args.precision)
+            make_simulation_for_model(MODEL, args, precision=args.precision)
+            make_simulation_for_model(MODEL+'__minus', args, precision=args.precision)
+            make_simulation_for_model(MODEL+'__plus', args, precision=args.precision)
     else:
         def make_sim(MODEL):
-            make_simulation_for_model(MODEL, precision=args.precision)
+            make_simulation_for_model(MODEL, args, precision=args.precision)
         
     if Mlist is None: # means it is a single model
         make_sim(args.MODEL)
