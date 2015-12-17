@@ -8,9 +8,9 @@ from measures import measuring_subthre_dynamics
 
 
 def make_simulation_for_model(MODEL, args, return_output=False,\
-                              precision='low'):
+                              sampling='low'):
 
-    if precision is 'low':
+    if sampling is 'low':
         # discretization and seed
         SEED = np.arange(2)+1
         dt, tstop = 1e-4, 2.
@@ -22,7 +22,7 @@ def make_simulation_for_model(MODEL, args, return_output=False,\
     params = models.get_model_params(MODEL, {}) # paramters of the model, see models.py
         
     ### PARAMETERS OF THE EXPERIMENT
-    if args.RANGE_FOR_3D is None:
+    if len(args.RANGE_FOR_3D)>1:
         params['RANGE_FOR_3D'] = args.RANGE_FOR_3D
         
     muV_min, muV_max, sV_min1, sV_max1, sV_min2, sV_max2, Ts_ratio = params['RANGE_FOR_3D']
@@ -82,7 +82,7 @@ def make_simulation_for_model(MODEL, args, return_output=False,\
                         measuring_subthre_dynamics(v, spikes, dt,\
                                    Tm0=params['Cm']/params['Gl'])
 
-    data_path = '../data/'+MODEL+'.npz'
+    data_path = '../data/'+MODEL+'_'+args.SUFFIX_NAME+'.npz'
 
 
     D = dict(muV=1e3*muV.flatten(), sV=1e3*sV.flatten(),\
@@ -113,7 +113,7 @@ if __name__=='__main__':
     parser.add_argument("MODEL", help="Choose a model of NEURON")
     parser.add_argument("-t", "--WITH_TM_VARIATIONS",\
                         help="we vary tm", action="store_false")
-    parser.add_argument("--precision", default='low',\
+    parser.add_argument("--sampling", default='low',\
                         help="turn to 'high' for simulations as in the paper")
     parser.add_argument("--DISCRET_muV", default=4, type=int,\
                         help="discretization of the 3d grid for muV")
@@ -121,22 +121,26 @@ if __name__=='__main__':
                         help="discretization of the 3d grid for sV")
     parser.add_argument("--DISCRET_TvN", default=4, type=int,\
                         help="discretization of the 3d grid for TvN")
-    parser.add_argument("--RANGE_FOR_3D", default=None, nargs='*',\
+    parser.add_argument("--RANGE_FOR_3D", type=float, default=[], nargs='+',\
                         help="possibility to explicitely set the 3D range scanned")
+    parser.add_argument("--SUFFIX_NAME", default='',\
+                        help="suffix to the file name in ../data/MODEL_*.npz")
 
     args = parser.parse_args()
+
+    print args.RANGE_FOR_3D
     
     Mlist = models.models(args.MODEL)
 
     if args.WITH_TM_VARIATIONS:
         def make_sim(MODEL):
             print 'by default we vary Tm !!'
-            make_simulation_for_model(MODEL, args, precision=args.precision)
-            make_simulation_for_model(MODEL+'__minus', args, precision=args.precision)
-            make_simulation_for_model(MODEL+'__plus', args, precision=args.precision)
+            make_simulation_for_model(MODEL, args, sampling=args.sampling)
+            make_simulation_for_model(MODEL+'__minus', args, sampling=args.sampling)
+            make_simulation_for_model(MODEL+'__plus', args, sampling=args.sampling)
     else:
         def make_sim(MODEL):
-            make_simulation_for_model(MODEL, args, precision=args.precision)
+            make_simulation_for_model(MODEL, args, sampling=args.sampling)
         
     if Mlist is None: # means it is a single model
         make_sim(args.MODEL)
