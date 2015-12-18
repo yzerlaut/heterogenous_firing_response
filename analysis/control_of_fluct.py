@@ -4,8 +4,9 @@ import sys
 sys.path.append('/home/yann/work/python_library/')
 from my_graph import set_plot
 
-fig, AX = plt.subplots(1, 3, figsize=(15,4))
-plt.subplots_adjust(bottom=.25, wspace=.4)
+fig, AX0 = plt.subplots(4, 3, figsize=(15,18))
+AX = AX0[3,:]
+plt.subplots_adjust(hspace=.4, wspace=.4)
 
 CELL_NUMBER = 30
 
@@ -55,7 +56,7 @@ for ax, X, Y, sY, ALL in zip(AX, [muV, sV, TvN],\
             Y[i] = np.mean(ALL[i])
             sY[i] = np.std(ALL[i])
                 
-    ax.errorbar(.5*(X[1:]+X[:-1])[Y!=0], Y[Y!=0], sY[Y!=0], color='k', lw=3, label='data')
+    ax.errorbar(.5*(X[1:]+X[:-1])[Y!=0], Y[Y!=0], sY[Y!=0], color='k', lw=3, label='in vitro \n data')
     
 AX[0].plot([-70, -40], [-70, -40], '--', lw=1, color='k')
 AX[1].plot([0.5, 8], [0.5, 8], '--', lw=1, color='k')
@@ -67,23 +68,22 @@ for ax, label, lim in zip(AX[:2], ['$\mu_V$', '$\sigma_V$'],\
                  xlabel=label+' desired (mV)', ylabel=label+' observed (mV)')
 
                  
-AX[2].legend(loc='best', frameon=False, prop={'size':'xx-small'})
+AX[2].legend(loc='best', frameon=False, prop={'size':'small'})
 
 set_plot(AX[2], ylim=[0.,120.],\
      xlabel='$\\tau_V^N$ desired (%)', ylabel='$\\tau_V^N$ observed (%)')
 
 #### Then theoretical models ####
 
-fig2, AX = plt.subplots(1, 3, figsize=(15,4))
-plt.subplots_adjust(bottom=.25, wspace=.4)
-
 muV = np.linspace(-70, -50, n_bins)
 sV = np.linspace(0.5, 8, n_bins)
 TvN = np.linspace(10, 110, n_bins)
 
-for model, color, label in zip(['LIF', 'SUBTHRE', 'iAdExp'],\
-                               ['b', 'k', 'r'], ['LIF', 'RC-circuit', 'iAdExp']):
+for ii, model, color, label in zip(range(3),\
+                                   ['SUBTHRE', 'LIF', 'iAdExp'],\
+                                   ['b', 'k', 'r'], ['RC-circuit', 'LIF', 'iAdExp']):
                                
+    AX = AX0[ii,:]
     ALL_MUV_EXP, ALL_SV_EXP, ALL_TV_EXP = [], [], []
     for X, Y in zip([muV, sV, TvN],\
                     [ALL_MUV_EXP, ALL_SV_EXP, ALL_TV_EXP]):
@@ -116,24 +116,24 @@ for model, color, label in zip(['LIF', 'SUBTHRE', 'iAdExp'],\
                 Y[i] = np.mean(ALL[i])
                 sY[i] = np.std(ALL[i])
 
-        ax.errorbar(.5*(X[1:]+X[:-1])[Y!=0], Y[Y!=0], sY[Y!=0], color=color, lw=1, label=label)
+        ax.errorbar(.5*(X[1:]+X[:-1])[Y!=0], Y[Y!=0], sY[Y!=0], color=color, lw=2, label=label)
 
-AX[0].plot([-70, -50], [-70, -50], '--', lw=1, color='k')
-AX[1].plot([0.5, 8], [0.5, 8], '--', lw=1, color='k')
-AX[2].plot([10, 100], [10, 100], '--', lw=1, color='k', label='desired')
+    AX[0].plot([-70, -50], [-70, -50], '--', lw=1, color='k')
+    AX[1].plot([0.5, 8], [0.5, 8], '--', lw=1, color='k')
+    AX[2].plot([10, 100], [10, 100], '--', lw=1, color='k', label='desired')
     
 
-for ax, label, lim in zip(AX[:2], ['$\mu_V$', '$\sigma_V$'],\
-                          [[-72,-48], [0.,9.]]):
-        set_plot(ax, xlim=lim, ylim=lim,\
-                 xlabel=label+' desired (mV)', ylabel=label+' observed (mV)')
+    for ax, label, lim in zip(AX[:2], ['$\mu_V$', '$\sigma_V$'],\
+                              [[-72,-48], [0.,9.]]):
+            set_plot(ax, xlim=lim, ylim=lim,\
+                     xlabel=label+' desired (mV)', ylabel=label+' observed (mV)')
 
                  
-AX[2].legend(loc='best', frameon=False, prop={'size':'xx-small'})
+    AX[2].legend(loc='best', frameon=False, prop={'size':'small'})
 
-set_plot(AX[2], ylim=[0.,140.],\
-     xlabel='$\\tau_V^N$ desired (%)', ylabel='$\\tau_V^N$ observed (%)')
+    set_plot(AX[2], ylim=[0.,140.],\
+         xlabel='$\\tau_V^N$ desired (%)', ylabel='$\\tau_V^N$ observed (%)')
 
-
+fig.savefig('../figures/approx_allows_control_of_fluct.svg', format='svg')
 
 plt.show()

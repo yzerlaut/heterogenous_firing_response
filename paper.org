@@ -1,7 +1,6 @@
-
 #+TITLE: Heterogeneous firing response of mice layer V pyramidal neurons in the /fluctuation-driven/ regime
 #+AUTHOR: Y. Zerlaut^{1,2}, B. Telenczuk^{1,2},  C. Deleuze^1, T. Bal^1, G. Ouanounou^{1}* \& A. Destexhe^{1,2}*
-#+INCLUDE: jneurosci_template.org 
+#+INCLUDE: my_template.org 
 
 * Abstract
 
@@ -10,7 +9,7 @@
   Characterizing the input-output properties of neocortical neurons is
   of crucial importance to understand the properties emerging at the
   network level. In the regime of low-rate irregular firing (such as
-  the /awake/ state) determining those properties for neocortical
+  in the /awake/ state) determining those properties for neocortical
   cells remains, however, both experimentally and theoretically
   challenging.  Here, we identified three somatic variables that
   describe the dynamical state at the soma in the /fluctuation-driven/
@@ -23,17 +22,16 @@
   sensitivities to the variations in the three parameters of the
   fluctuations. We show with theoretical modeling that heterogeneous
   levels of biophysical properties such as sodium inactivation,
-  sharpness of sodium activation and spike frequency inactivation
-  might be the main contributors to the observed diversity of firing
+  sharpness of sodium activation and spike frequency adaptation might
+  be the main contributors to the observed diversity of firing
   responses. Because the firing rate response will determine
   population rate dynamics during asynchronous neocortical activity,
   our results show that cortical populations are functionally strongly
-  inhomogeneous in young mice visual cortex, what would critically
-  impact cortical computation at early stages of sensory processing.
-
+  inhomogeneous in young mice visual cortex, which should have
+  important consequences on cortical computation at early stages of
+  sensory processing.
 
 \normalfont
-
 
 
 * Significance statement
@@ -47,10 +45,10 @@ response of single neocortical layer V pyramidal cells of young mice
 visual cortex in an activity domain imitating normal awake state. We
 found that individual neurons greatly differ not only in their
 excitability but also in their ability to trigger spikes as a function
-of the characteristics of the fluctuations. By highlighting and
-quantifying the diversity of cellular computational properties, our
-study contributes to the understanding of how biological heterogeneity
-impacts neocortical computation of sensory input.
+of the characteristics of the membrane potential fluctuations. By
+highlighting and quantifying this diversity, our study contributes to
+the understanding of how biological heterogeneity impacts neocortical
+computations.
 
 \normalfont
 
@@ -62,34 +60,583 @@ cortical activity manifests highly complex, seemingly noisy
 behavior. At the level of single neurons the activity is characterized
 by strong subthreshold fluctuations and irregular firing at low rate:
 this constitutes the fluctuation-driven regime, which is believed to
-form the basis of cortical computation [[cite:Destexhe2006]]. Since
-sensory processing of natural stimuli also evoke sparse response at
-low population rates, see for example [[citetext:Baudot2013]] in cat V1,
+be central to cortical computations [[citep:Destexhe2006]]. Since sensory
+processing of natural stimuli also evoke sparse response at low
+population rates, see for example [[citet:Baudot2013]] in cat V1,
 understanding the dynamical and computational properties of this
 regime at the cellular and network level is a key challenge in systems
 neuroscience.
 
 On the other hand sparse responses at low population rates constitute
-a difficulty for experimentalists /in vivo/ as, by definition,
+a difficulty for experimentalists /in vivo/ as
 responses are of low amplitude and render experimental
 characterization challenging. To a lesser extent, this is also true
 /in vitro/, characterizing the spiking response of single neurons at
 low rate requires long recording times and stable properties. In the
 present paper, we propose a characterization of the low rate response
-of single neurons which was made possible by the combination of the
+of single neurons that was made possible by the combination of the
 stability offered by the perforated patch technique technique and a
 simple fitting procedure for the spiking response.
 
 We investigate single neuron responses with respect to three somatic
 variables: the mean, standard deviation and speed of the membrane
 potential fluctuations at the soma. In comparison with previous work
-[[cite:LaCamera2008]], our approach allows to investigate the response to
+[[citep:LaCamera2008]], our approach allows to investigate the response to
 fast membrane potential fluctuations present in the /high conductance/
-state of cortical networks [[cite:Destexhe2003]]. This characterization
-focuses on how fluctuations are translated into output spikes on top
-of subthreshold integration effects [[cite:Kuhn2004]]. In addition, we
+state of cortical networks [[citep:Destexhe2003]]. This characterization
+focuses on how these fluctuations are translated into output spikes on top
+of subthreshold integration effects [[citep:Kuhn2004]]. In addition, we
 also investigated the putative biophysical origin of the measured
 responses in established theoretical models of single neurons.
+
+
+* Results 
+<<sec:results>>
+\normalsize
+
+The paper is organized as follows: we start by we defining the
+fluctuation-driven regime at the soma and designing a method to
+reproduce this somatic dynamical state under dynamic-clamp
+experiments. We also derive a flexible template for the firing rate
+response, whose accuracy is demonstrated on various theoretical
+models. Then, we investigate the firing response of layer V pyramidal
+cells in mice juvenile cortex and we analyze the individual features
+of single neuron responses. Finally, we explore the putative
+biophysical origin of the observed response in theoretical models of
+neocortical neurons.
+
+** A three-dimensional description of the dynamical state at the soma in the fluctuation-driven regime
+<<sec:3D-space>>
+
+# #+ATTR_LATEX: :float c :width .6\linewidth
+#+ATTR_LATEX: :float c
+#+CAPTION: *Investigating somatic computation in the fluctuation-driven regime* *(A)* Schematic illustration on a layer V pyramidal cell in cat V1 [[citep:Contreras1997]] together with theoretical distribution of inhibitiory (red) and excitatory (green) synaptic inputs. Synaptic and dendritic integration of pre-synaptic spike trains (two sample spike trains in upper right) produce membrane potential fluctuations at the soma as recorded intracellularly in current-clamp. *(B)* A sample trace of membrane potential integrating inputs from all inhibitory and excitatory synapses (black trace). We characterize those fluctuations by a mean \mu_V (dashed horizontal line), a standard deviation \sigma_V of sub-threshold oscillations (gray background) and global autocorrelation time \tau_V (determined from the normalized autocorrelation function in the inset, see Methods[[sec:autocorrel-def]]). The properties of those fluctuations determine the spiking probability of the neuron (three spikes visible in the membrane-potential trace).
+#+NAME: fig:3D-motiv
+[[file:./figures/vm_traces.pdf]]
+
+
+Determining the cellular input-output functions is complex because
+input of neocortical neurons are mostly in dendrites and output spikes
+are generated in initial segments of an axon as reviewed in
+[[citet:Stuart2015]] and [[citet:Debanne2011]] 
+input will therefore crucially shape their input-output
+relationship. Various parameters of presynaptic activity can
+arbitrarily control the properties of the membrane potential
+fluctuations at the soma. Those properties can be quantified by
+identifying three somatic variables that provide a reduced description
+of the dynamical state at the soma in the /fluctuation-driven/ regime:
+the mean \mu_V, the standard deviation \sigma_V of the membrane
+potential fluctuations and their typical autocorrelation time $\tau_V$
+(see Methods[[sec:autocorrel-def]]). For example, the
+excitatory/inhibitory balance controls the mean depolarization at the
+soma \mu_V, the mean synaptic bombardment impacts the standard
+deviation \sigma_V and the speed of the membrane potential
+fluctuations \tau_V. Other effects such as synchrony in the
+presynaptic spike trains or ratio between distally and proximally
+targeting synaptic activity also affect the statistical properties of
+the fluctuations. The effects of synaptic input and its dendritic
+integration on somatic variables can be investigated theoretically
+using cable theory [[citep:Tuckwell2002]] and will be the focus of a future
+communication.
+
+Because the spike initiation site lies electrotonically close to the
+soma [[citep:Debanne2011]], we assume that those three purely somatic
+variables will define the firing rate uniquely. In this study we
+investigate the firing response in terms of those somatic variables
+(illustrated in Figure [[fig:3D-motiv]]).
+
+We therefore designed a stimulation protocol to reproduce awake-like
+dynamical state at the soma and investigate the firing response in
+this three dimensional space. We evaluate the parameters of stochastic
+current and static conductance that would result in a particular
+configuration of the V_m fluctuations (\mu_V, \sigma_V and \tau_V) for
+passive membrane using a single-compartment approximation
+[[citep:Kuhn2004]].  This procedure allows to focus on how active currents
+convert fluctuations into spikes. Another advantage of this approach
+is that it naturally rescales the input with respect to the individual
+cellular properties (R_m, C_m and E_L) and therefore allows a
+cell-by-cell comparison. In addition, we investigated domains of the
+dimensionless variable \tau_V^N = \tau_V / \tau_m^0 instead of
+absolute values for membrane time constant \tau_V to account for
+scaling of the synaptic inputs with membrane area (Equation [[eq:TvN]] in
+Methods[[sec:stimulation-design]]).
+
+
+
+** Template for the firing rate response of single neurons 
+<<sec:building-template>>
+
+ A key challenge for the /in vitro/ characterization of input-output
+ relationship is to extract a reliable quantitative estimation of its
+ functional form from a limited number of experimentally sampled points.
+One approach consists in fitting the response to the formula derived from
+ a specific theoretical model, such as leaky integrate-and-fire neuron
+ [[citep:Rauch2003,Lundstrom2009a]]. This strategy has three drawbacks: 1)
+ the complexity of the analytical formula requires a careful numerical
+ determination and thus render fitting procedures non trivial, 2) it
+ does not generalize easily to biophysically-realistic synaptic input
+ (e.g. reproducing synaptic dynamics, see [[citet:Brunel1998a]]) and 3)
+ the low number of parameters of simple theoretical models (e.g. a
+ single spike threshold for the leaky integrate-and-fire model)
+ imposes that the membrane parameters (e.g. leak conductance and
+ membrane capacitance) are free parameters to have enough degrees of
+ freedom.
+
+ We propose here a different strategy: we introduce a flexible
+ analytical template fully determined by membrane parameters, which
+ are experimentally measured, and some free parameters, which can be
+ fitted using a simple two-step minimization procedure.
+
+ The basis for the template rely on a simple estimate, analogous to
+ [[citet:Amit1997]], for the firing rate response of the LIF model:
+
+#+NAME: eq:template
+\begin{equation}
+  \nu_\mathrm{out} = \frac{\textrm{Pr}(V>V_\mathrm{thre})}{\tau_V} = 
+\frac{1}{2\,\tau_V} \cdot 
+\mathrm{Erfc}(\frac{V_\mathrm{thre}-\mu_V}{\sqrt{2} \, \sigma_V})
+\end{equation}
+
+ It is obtained heuristically by splitting the time axis in bins of
+ length $\tau_V$, the spiking probability is then the probability that
+ the membrane potential is above the threshold V_{thre} (see
+ Methods[[sec:simple-approx]]). In comparison with earlier approach
+ [[citep:Amit1997]], we take here the global autocorrelation time instead
+ of the membrane time constant. We used this approximation as a
+ baseline trend for the firing rate response and the properties of an
+ individual cell will be described by deviations from this baseline
+ behavior.
+
+ We found that those deviations could be accurately accounted for by
+ replacing the hard threshold of the approximation $V_\mathrm{thre}$ by
+ a linear phenomenological threshold:
+
+#+NAME: eq:linear-threshold
+\begin{equation}
+  \begin{split}
+   V_\mathrm{thre}^\mathrm{eff} & (\mu_V, \sigma_V, \tau_V^N) = P_0 + \\
+   & P_\mu \, \frac{\mu_V - \mu_V^0}{\delta \mu_V^0} +
+   P_\sigma \, \frac{\sigma_V - \sigma_V^0}{\delta \sigma_V^0}
+ + P_\tau \, \frac{\tau_V^N - \tau_V^{N0}}{\delta \tau_V^{N0}}
+ \end{split}
+\end{equation}
+
+The quantities: \( ( \mu_V^0, \delta \mu_V, \sigma_V^0, \delta
+\sigma_V, \tau_V^{N0}, \delta \tau_V^N ) \) are constant rescaling
+factors of the (\mu_V, \sigma_V, \tau_V^N) space, see
+Methods[[sec:fitting]].
+
+A practical advantage of the template (Equation [[eq:template]]) is that,
+given some data \(\nu_\mathrm{out}(\mu_V, \sigma_V, \tau_V^N)\), we
+can invert the equation to get the phenomenological threshold as a
+function of the output firing rate:
+
+#+NAME: eq:effective-threshold
+\begin{equation}
+\begin{split}
+ V_\mathrm{thre}^\mathrm{eff}( & \nu_\mathrm{out}, \mu_V, \sigma_V, \tau_V^N) = \\ & \sqrt{2} \, \sigma_V \, \mathrm{Erfc}^{-1}(2 \, \tau_V^N \, \tau_m^0 \, \nu_\mathrm{out}) +\mu_V, \, \,  \forall \, \nu_\mathrm{out} > 0
+\end{split}
+\end{equation}
+
+Where Erfc^{-1} is the inverse of the complementary error function.
+
+ We used this property to design the final fitting procedure: given
+some data \(\nu_\mathrm{out}(\mu_V, \sigma_V, \tau_V^N)\), we
+calculate the phenomenological threshold data using Equation
+[[eq:effective-threshold]] and fit coefficients P_0, P_{\mu_V},
+P_{\sigma_V}, P_{\tau_V} by linear regression. Then starting from
+those coefficients we perform a non-linear least-square fitting. Those
+two steps guarantee that the non-linear optimization starts from a
+good initial guess and ensures that the gradient-descent method
+converges close to the global minimum.
+
+
+** Firing rate response of theoretical models
+
+#+NAME: fig:model-response-and-fit
+#+ATTR_LATEX: :float multicolumn
+#+CAPTION: *The analytical template (Equations [[eq:template]] and [[eq:linear-threshold]]) can capture the firing rate response of various theoretical models.* Shown for the Leaky Integrate and Fire model (LIF) with V_{thre}=-47mV (kept for all following models), the EIF with \(k_a=2\mathrm{mV}\), the sfaLIF  with \(b=20\mathrm{pA}\), the iLIF with  \(a_i = 0.6\) and the iAdExp model that combines all the previously mentioned mechanism with \(k_a=2\mathrm{mV}, b=6\mathrm{pA}, a_i = 0.6\). *(A)* Response of the models to a current step. Plain line: response to depolarizing current step, dashed line: response to hyperpolarizing current step. For the iLIF and iAdExp models, we show in red the dynamics of the threshold \theta(t). *(B)* Firing rate response in the (\mu_V, \sigma_V) space. Color indexes variation of the global autocorrelation ratio $\tau_V/\tau_m^0$. *(C)* Projections along the standard deviation \sigma_V axis for different mean polarization levels \mu_V. Data (points) and fitted analytical template (thick transparent lines). Note the shifts in the scanned $\mu_V$ domain to reach a comparable firing range despite a reduced excitability (see main text). *(D)* Phenomenological threshold V_{thre}^{eff} that leads to the fitted firing response, the coefficients of the linear functions can be found in Table [[table:Figure-1]].
+[[file:./figures/template_fit_models.pdf]]
+
+We start by demonstrating the accuracy and flexibility of this
+phenomenological description on the firing rate response for various
+theoretical models (Figure [[fig:model-response-and-fit]]).
+
+The model considered in this study is the inactivating adaptative
+exponential and fire (Methods[[sec:theoretical-models]]), which extends
+the model of [[citet:Brette2005a]] by adding an inactivation mechanism
+[[citep:Platkiewicz2011]]. Several widespread theoretical models are
+special cases of this model: the leaky integrate and fire (LIF), the
+exponential integrate and fire (EIF, [[citet:Fourcaud-Trocme2003]]), the
+inactivating leaky integrate and fire (iLIF, [[citet:Platkiewicz2011]]). We
+also define a LIF model with spike-frequency adaptation only (sfaLIF).
+
+We show on Figure [[fig:model-response-and-fit]] that the template is able
+to describe the firing rate response of those various theoretical
+models. The impact on firing of those different biophysical properties
+of those models could all be accurately captured by differences in the
+linear phenomenological threshold (Figure
+[[fig:model-response-and-fit]]D).
+
+We compared the four-parameter description to simpler and more complex
+models in which the phenomenological threshold is: constant (1
+parameter), linear function (4 parameters) or second-order polynomial
+of \mu_V, \sigma_V and \tau_V^N (10 parameters). The goodness to fit
+of the single-parameter description was 84.6% \pm 8.9; it increased to
+99.0% \pm 0.5 for the four-parameter description; and then to 99.6%
+\pm 0.2 for the quadratic phenomenological threshold with 10
+parameters. We conclude that the four-parameter description offers a
+good compromise between goodness-to-fit and number of parameters and
+will consequently avoid over-fitting of the experimental data.
+
+#+NAME: table:Figure-1
+#+CAPTION: *Fitted coefficients of the linear phenomenological threshold for the theoretical models shown in Figure [[fig:model-response-and-fit]]* 
+| model | \(P_0\)(mV) | \(P_\mu\)(mV) | \(P_\sigma\)(mV) | \(P_\tau\)(mV) |
+|-------+-------------+---------------+------------------+----------------|
+#+INCLUDE: ../tables/model_fitted_coeff.org
+|-------+-------------+---------------+------------------+----------------|
+
+In absence of active mechanisms, membrane potential fluctuations are
+statistically identical in all theoretical models (by design, they are
+the same leaky RC circuit). The active mechanisms may nonetheless have
+an impact on the membrane potential fluctuations themselves and will,
+by this mean, impact the firing response. In our description, those
+effects are captured in the dependency of phenomenological threshold on input variables. For example,
+the stationary spike-frequency adaptation level induces a net
+hyperpolarizing current, which, in our description, leads to an
+increased phenomenological threshold (sfaLIF vs. LIF in Figure
+[[fig:model-response-and-fit]]D).
+
+
+** Link between the biophysical properties and the characteristics of the firing rate response in theoretical models
+<<sec:sensitivities>>
+
+#+NAME: fig:illustration-sensitivities
+#+ATTR_LATEX: :float multicolumn
+#+CAPTION: *Extracting the mean properties of a single neuron response: excitability and sensitivities to the variables of the /fluctuation-driven/ regime*. *(A)* Illustration for the LIF model. From the fitting procedure we obtain an analytical description of the firing rate response (center plot). We focus the analysis on the domain $\mathcal{D}$ of the low rate fluctuation-driven regime (see main text[[sec:sensitivities]]), its extent is delimited by the white square in the bottom and top-right insets. The mean phenomenological threshold in the $\mathcal{D}$ domain quantifies the excitability (top left: large dashed line). Then for each variable (top right: \tau_V^N, bottom left: \sigma_V, bottom right: \mu_V), we show the projections of the firing response along this dimension for different combinations of the two other variables within the $\mathcal{D}$ domain (dotted lines). The mean derivative (represented by arc angle and large dashed line) with respect to the variable in x-axis over different combinations of the remaining variables quantifies the mean sensitivity to this variable. *(B)* Excitabilities for the LIF, EIF, sfaLIF and iLIF models (parameters as in Figure [[fig:model-response-and-fit]]). *(C)* Mean sensitivities to $\mu_V$. *(D)* Mean sensitivities to $\sigma_V$. *(E)* Mean sensitivities to $\tau_V / \tau_m^0$ for the four models.
+[[file:./figures/illustration_excitability_sensitivities.pdf]]
+
+To capture the particular features determining the properties of
+neuronal computation in the fluctuation-driven regime, we now turn to
+analyzing firing rate responses of the models.  We define four simple
+quantities that provide a reduced description of the response of a
+single neuron: a mean excitability (mean phenomenological threshold)
+and average sensitivities to variations of mean \mu_V, standard
+deviation \sigma_V and speed of the fluctuations \tau_V^N. These
+quantities were average for all combination of the three input
+variables consistent with awake-like conditions (low-rate, 1 - 15 Hz,
+fluctuation-driven regime, $\mathcal{D}$ domain in Figure
+[[fig:illustration-sensitivities]]).
+
+ The LIF model provides a basic picture for the firing
+ rate response (see LIF in Figure [[fig:model-response-and-fit]] and
+ Figure [[fig:illustration-sensitivities]]A). Spiking in the LIF model increases with mean
+ depolarization and the standard deviation (bottom panels in Figure
+ [[fig:illustration-sensitivities]]A), while it decreases with the global
+ autocorrelation time (top right panel in Figure
+ [[fig:illustration-sensitivities]]A). More sophisticated biophysical
+ mechanisms implemented in the considered theoretical models
+ (exponential activation, adaptation, etc.) affect those baseline
+ characteristics.  First of all, such mechanisms suppress spiking and
+ therefore reduce the mean excitability of all the models (Figure
+ [[fig:illustration-sensitivities]]B). The effect on average sensitivities
+ is more complex.
+
+ The substitution of the hard threshold of LIF with an exponential
+ function in EIF imitates the gradual opening of sodium channels in
+ time.  This property has a very strong impact on the dependency on
+ the speed of the fluctuations (Figure
+ [[fig:illustration-sensitivities]]E). In contrast to LIF, fast
+ fluctuations do not lead to an increase of spiking. This effect,
+ which occurs due to the inability of smooth sodium activation curve
+ to extract fast varying fluctuations [[citep:Fourcaud-Trocme2003]], is
+ well captured by our analysis: the sensitivity to \tau_V^N is much
+ reduced for the EIF with respect to the LIF model.
+
+ The spike frequency adaptation of sfaLIF reproduces the effect of a
+ calcium-dependent potassium current (Im current) that tend to
+ hyperpolarize neocortical pyramidal neurons at each spike occurrence
+ [[citep:McCormick1985]]. This is an effect that attenuates firing and
+ because it is proportional to firing itself we expected it would
+ reduce the dependencies to all variables. Indeed the sensitivities to
+ \mu_V and \sigma_V are strongly attenuated with respect to LIF
+ (Figure [[fig:illustration-sensitivities]]C-D). In contrast, the
+ sensitivity \tau_V^N is only mildly affected. The temporal dynamics
+ of the hyperpolarizing current (\tau_W=500ms) impedes short
+ inter-spike intervals in the output spike train, consequently slow
+ fluctuations are more strongly dampened than fast fluctuations which
+ restores the sensitivity to \tau_V^N (Figure
+ [[fig:illustration-sensitivities]]E).
+
+ The iLIF model reproduce the fast inactivation properties of sodium
+ channels (see [[citet:Hille2001]] for a review). Close to threshold,
+ sodium channels tend to rapidly inactivate (\tau_{inact}=5ms). This
+ mechanism clearly favors fast and high amplitude fluctuations, which
+ allow to trigger a spike before the channels become
+ unavailable. Indeed, the sensitivity to \sigma_V and \tau_V^N is
+ strongly enhanced (see Figure [[fig:illustration-sensitivities]]D-E).
+
+
+** Response of juvenile mice layer V pyramidal neurons /in vitro/ with the perforated-patch technique
+<<sec:exp-charact>>
+
+#+NAME: fig:exp-charact
+#+ATTR_LATEX: :float multicolumn
+#+CAPTION: *The exploration of a physiologically-relevant space in layer 5 pyramidal neurons of juvenile mice*. From *B* to *E*, an example of a single cell. *(A)* A typical layer 5 pyramidal neuron in the primary visual cortex of juvenile mice. Picture from additional experiments: marking with 2\% Biocytin (Sigma Aldrich) in whole cell configuration. *(B)* After diffusion of the perforant molecule toward the patch of membrane, a step voltage clamp protocol estimates the quality of the seal and perforation (see details in the Methods[[sec:electrophy]]). *(C)* A step current clamp protocol estimate the passive membrane properties. Those properties are used by the stimulation protocols to constrain the V_m fluctuations (see Methods[[sec:stimulation-design]]). *(D)* All along the recording, we monitor the cellular properties: the resting membrane potential $E_\mathrm{L}$, the membrane resistance $R_\mathrm{m}$ and the variations of the firing rate with respect to the stationary behavior $\mathrm{CV}_\nu$ (see details in the main text[[sec:exp-charact]] and in the Methods[[sec:monitoring]]). The smoothened data (red curve) show the global trend, it removes the measurement error due to the short sampling time for $R_\mathrm{m}$ and $E_\mathrm{L}$ (see *E*), for $\mathrm{CV}_\nu$, it removes the intrinsic spiking irregularity. For the $\mathrm{CV}_\nu$ curve we have added the standard deviation (mean \pm std in red) for comparison with a stationary Poisson process (mean \pm std in black). *(E)* Sample of the membrane potential $V_\mathrm{m}$, the injected current $I$ and the total conductance $\mu_G$ at the beginning of the recording (left,t=17.7min, blue star in *D*) and one hour after (right, t=71.8min, red star in *D*). Within an episode, we scan one combination of the (\mu_V, \sigma_V, \tau_V^N) variables. For example, the middle episode corresponds to the most depolarized level \mu_V (hence the lower spike amplitude due to Na inactivation) with the fastest fluctuations \tau_V^N (i.e. an high input conductance \mu_G, also shunting the spikes, see the strong opposite current) and an intermediate variance $\sigma_V$. In between the two first episodes, one can see rest period (to monitor $E_\mathrm{L}$) followed by a current pulse (to monitor $R_\mathrm{m}$).
+[[file:./figures/experimental_system.pdf]]
+
+We now use the above analytical tools to determine experimentally firing rate responses /in vitro/.
+Scanning the response of neocortical neurons in the fluctuation-driven
+regime is experimentally challenging because it is characterized by an
+irregular firing at low rates (\sim 0.1-20 Hz). To obtain a meaningful
+estimation of the firing rate response we need long and stable
+recordings [[citep:Rauch2003,Kondgen2008a]].  Both to obtain this stability
+and to ensure the integrity of the intracellular medium (in particular
+to maintain a physiological Ca^{2+} dynamics), we chose the
+/perforated patch/ technique [[citep:Rae1991,Lippiat2008]], in which
+electrical access is obtained by inserting a conducting pore
+(Amphotericin B protein permeant only to monovalent ions) in a patch
+of membrane [[citep:Wendt1992,Kyrozis1995]].  Although the technique may
+sometimes limit the quality of the electrical access to the cell, we
+achieved very low ratios between the access resistance and the
+membrane resistance (4.7 \pm 2.6 %, see also [[citet:Rae1991]]), thus
+allowing for reliable use of the /dynamic-clamp/ technique
+[[citep:Destexhe2009]].
+
+We monitored the stability of recordings by means of three
+quantities: 1) the resting membrane potential, 2) the membrane
+resistance and 3) the variations of the firing rate probability and
+formulated strict criteria for the stability of the recordings (see
+Figure [[fig:exp-charact]]E).
+
+The resulting dataset contains n=30 cells, it totals to 65455 spikes
+fired at an average frequency of 3.62Hz, i.e. within the low-rate,
+fluctuation-driven regime defined above (1 - 15 Hz). This relatively
+large amount of data was necessary to extract the biophysical
+relations between the fluctuations properties and the stationary
+firing rate.
+
+#+NAME: fig:data-response-and-fit
+#+ATTR_LATEX: :float multicolumn
+#+CAPTION: *Characterization of the firing rate response of the recorded neocortical pyramidal neurons*. *(A)* Four examples of the firing rate response of single neurons, data (diamonds, error bars indicate variability estimated as the standard deviation from responses to multiple trials where available) and fitted template function (plain line), the cells are indexed from 1 to 4 to identify them in the heterogeneity analysis (Figure [[fig:cellular-heterogeneity]]). *(B)* For 21 neurons scanned with at least of 70 different combinations of input statistics, we split the dataset into two and investigate the similarity of the coefficients between the two subsets. The relatively high and significant (p<0.05, Pearson correlation) correlation coefficients between characterizations in the first and second datasets indicate a robust characterization of the firing rate response.
+[[file:./figures/cellular_examples.pdf]]
+
+
+We investigated whether the combination of the analytical template
+(and its fitting procedure) with our experimental recording protocols
+was able to produce a reliable characterization of the firing rate
+response of layer V neocortical neurons in juvenile mice visual
+cortex.
+
+For each of the n=30 cells, we obtained a given scan of the \(\mu_V,
+\sigma_V, \tau_V^N \) space and applied our fitted procedure. We show
+the data and the fit for four examples in Figure
+[[fig:data-response-and-fit]]. The goodness-to-fit of our template was
+high (goodness-to-fit of 88.6% \pm 9.4, compared to only 38.4% \pm
+35.3 for the constant threshold and 90.6% \pm 9.2 for the quadratic
+phenomenological threshold), the small divergence is due to intrinsic
+irregularity of the low-rate spike process (sampled over 5 s per
+episode, Figure [[fig:exp-charact]]E). In spite of this variability, the
+linear threshold averages the intrinsic firing irregularity and
+produces a reliable characterization of the firing rate response.
+
+To quantify the robustness of the experimental characterization, we
+splitted the measurements into two sets and investigated whether the
+first half of data  would give the same phenomenological threshold as
+the second half. We found a good agreement if the number of
+scanned configuration of input space (\mu_V, \sigma_V, \tau_V) was
+n_{points} $\geq$ 70 (Pearson correlations, c>0.8 and p<1e-5 for the
+correlations between first and second half of data, Figure
+[[fig:data-response-and-fit]]B). The high Pearson correlations between the
+response characteristics in the two subsets indicates that the characterization is robust for n_{points} $\geq$ 35 scanned combinations of input parameters. Among the 30 cells used for further
+analysis, the cell with the minimum number of points had n_{points}=42
+scanned combinations meeting the above criterion for the robustness.
+
+
+** Single neurons show strongly heterogeneous firing rate responses
+<<sec:heterogeneity>>
+
+A striking feature in the response of the recorded cells is the
+differences in their response. 
+
+#+NAME: fig:cellular-heterogeneity
+#+ATTR_LATEX: :float multicolumn
+#+CAPTION: *Heterogeneity and underlying structure of the firing response of neocortical cells* *(A)* Histogram over recorded cells of the mean excitabilities and sensitivities to the variables of the fluctuations. The dashed color lines show the values of theoretical models for comparison. *(B)* Scatter plot of the mean excitability and sensitivities to the variables of the fluctuation-driven regime, we highlighted the cells shown in Figure [[fig:data-response-and-fit]] with larger markers. *(C)* Principal component analysis, in the inset, the vector coordinates of the two first components 
+[[file:./figures/cellular_heterogeneity.pdf]]
+
+We illustrate this property on the four examples shown in Figure
+[[fig:data-response-and-fit]]A. Cells 1 and 4 show a very
+strong dependency on speed of the fluctuations \tau_V, whereas cells 2 and 3 are almost insensitive to
+to this parameter (different colors in [[fig:data-response-and-fit]]A). The dependency on the standard deviation of fluctuations \sigma_V is steeper 
+for cell 2 than for 3 and 4. Also the sensitivity to \mu_V
+seems to be variable, a 10 mV depolarization has stronger effect
+on responses of cell 4 than 3. Finally, the
+cell excitabilities are also highly variable, so that they reach the 1-15Hz
+firing range at various depolarization levels (e.g. compare cell 2 and 3).
+Similar differences are present in all recorded pyramidal cells
+(Figure [[fig:cellular-heterogeneity]]A).
+
+This strong heterogeneity raises the question whether there is an
+underlying structure in the variations of the characteristics of the
+firing rate response and how could it be explained by diverse
+biophysical mechanisms. 
+
+First, when plotted in four-dimensional space of the firing response
+characteristics the data did not seem to distribute into distinct
+clusters (Figure [[fig:cellular-heterogeneity]]B). Presented on two
+dimensional projections, the excitability and sensitivities to input variables of different cells co-vary (Pearson correlation, $c$, Figure
+[[fig:cellular-heterogeneity]]B). We then looked for the four-dimensional
+structure of those co-variations in the response characteristics by
+means of a principal component analysis (Figure
+[[fig:cellular-heterogeneity]]C). No single co-variation of the
+sensitivities could explain a strong percentage of the observed
+heterogeneity, suggesting that the correlation structure is weak.
+
+Nonetheless, two vectors explained 75% of the variations in the
+data. The first vector corresponds to a co-variation of the
+sensitivities to mean and amplitude of the fluctuations. This
+co-variation can be achieved in the sfaLIF model, varying the weight
+of spike frequency adaptation concomitantly varies the sensitivities
+to \mu_V and \sigma_V (Figure [[fig:biophysics-explain-heter]]C). The
+second vector corresponds to a co-variation of a decrease in the
+excitability and an increase in the sensitivity to the speed of the
+fluctuations. The variability in excitabilities is quite remarkable,
+to reproduce it in the LIF model one needs variations of the threshold
+V_{thre} that spans nearly 15 mV (see Figure
+[[fig:biophysics-explain-heter]]). The variability in the sensitivity to
+\tau_V covers a wide range of parameters in theoretical models, from
+an EIF model with a smooth curve (k_a=2mV) to a strongly inactivating
+iLIF model (a_i=0.7). Increasing the threshold while increasing the
+impact of sodium inactivation and increasing the sharpness of the
+sodium activation curve would therefore reproduce the second component
+of the principal components analysis.
+
+#+NAME: fig:biophysics-explain-heter
+#+ATTR_LATEX: :float multicolumn
+#+CAPTION: *Variations in the expression of biophysical mechanisms explain the observed cellular heterogeneity in their firing rate response*. *(A)* Increasing the threshold V_{thre} of the LIF model. Note that this only affects the excitability and negligibly the sensitivities to \mu_V, \sigma_V and \tau_V^N. *(B)* Decreasing the sharpness of the sodium activation curve in the EIF model, k_a=0mV corresponds to the LIF model, k_a=3.7mV corresponds to a very smooth activation. Note the strong impact on the sensitivity to \tau_V^N. *(C)* Increasing spike frequency adaptation in the sfaLIF model, b=0 mV corresponds to the LIF model, b=35pA corresponds to a strongly adapting model. Note the concomitant variations of the sensitivities to \mu_V and \sigma_V.  *(D)* Increasing sodium inactivation in the iLIF model, a_i=0 corresponds to the LIF model, a_i=0.7 corresponds to a strongly inactivating model. Note the strong impact on the increase in sensitivity to sigma_V and \tau_V^N. *(E)* Histogram of the data from the n=30 neurons. 
+[[file:./figures/biophysics_explain_heterogeneity.pdf]]
+
+
+* Discussion
+
+We studied systematically the firing rate response of different
+neuronal models as well as /in vitro/ layer V pyramidal cells as a
+function of the three variables composing our definition of the
+/fluctuation-driven/ regime.
+
+Compared to previous studies [[citep:LaCamera2008]], we focused on the low
+rate regime and we extended the domain of somatic /in vivo/-like
+conditions. In particular, we investigated the dependency on the
+firing rate for high somatic conductance and low autocorrelation time
+of the membrane potential fluctuations. Scanning the response to low
+autocorrelation time allowed to highlight the impact of sodium
+inactivation because this is the regime where the temporal dynamics of
+this features is likely to play (\tau_{inact} \sim 5\mathrm{ms}).
+
+We formulated a two-step procedure to circumvent the issue of
+spatially distributed inputs in neocortical neurons where the
+intermediate quantities are the properties of the V_m fluctuations at
+the soma. Other investigators studied the response to the noisy
+current input properties at the soma and then addressed the problem of
+how dendritic integration shape the properties of this current
+[[citep:LaCamera2008,Giugliano2008]]. Our approach can be seen as a way to
+include the mean conductance effect due to changes in background
+synaptic activity. The reason we presented the data as a function of
+the V_m fluctuations properties and not the quantity that the
+experimentalist actually controls (the current and the conductance) is
+that it allows to compare individual cells and that the spiking
+response is dominated by subthreshold integration effects, e.g. for a
+same variance of input current, an increasing conductance would
+decrease the V_m fluctuations amplitude by shunting effects
+[[citep:Kuhn2004]]. The effects of the spike-related mechanisms are then
+difficult to de-intricate from those subthreshold effects. Here, we
+used calculus to design a stimulation protocol that allows to control
+the fluctuations and therefore to focus on understanding the single
+neuron computation on top of the fluctuations properties.
+
+Starting from a simple approximation, we showed that bringing the
+problem into a phenomenological threshold space was a simple way to
+describe the firing rate response of neocortical neurons. Other
+investigators already reported that a shift in the threshold was a
+convenient way to account for increasing biophysical complexity
+[[citep:Brunel1998a,Platkiewicz2010]]. Unlike the two mentioned studies,
+the form of our phenomenological threshold was not derived
+mathematically (it was arbitrarily taken as linear) but we believe
+that the descriptive power of this very simple form further confirms
+the idea that the threshold space is a convenient space to work in.
+
+We showed that this template is able to describe the response of
+neuronal models of varying complexity. We then used this simple
+description to design a robust characterization of the firing rate
+response of single neurons experimentally. This approach, combined
+with the long and stable recordings provided by the perforated patch
+technique, was our way to circumvent the experimental and theoretical
+difficulties of assessing a relevant firing rate response in a low
+rate irregular firing regime.
+
+We now discuss the biophysical mechanisms relevant for the firing rate
+response of layer V pyramidal cells in juvenile mice visual cortex.
+
+First, spike frequency adaptation was shown to be an important
+mechanism to the firing rate response. Notably, all models lacking
+spike frequency adaptation (LIF, EIF, iLIF) had a sensitivity to \mu_V
+higher than all recorded cell. This mechanism is therefore crucial to
+reproduce the attenuated sensitivity to depolarizations of layer V
+pyramidal cells in mice visual cortex.
+
+Many cells showed a weaker sensitivity to the speed of the
+fluctuations than the LIF model (n=20 out of 30). This could be
+reproduced in theoretical models by implementing a smoother activation
+curve for the sodium channels (EIF models of varying sharpness). This
+observations contrasts with reports from studies in more mature
+pyramidal neurons in rat neocortex [[citep:Kondgen2008a,Ilin2013]], where
+it was found that pyramidal cells could have a very sharp activation
+curve that would enable them to extract very fast input.
+Nevertheless, even at the soma, the neurons of our recordings show a
+rather smooth activation curve: k_a \sim 1.5 mV (not shown) from the
+dynamic I-V curve analysis [[citep:Badel2008]] rendering this possibility
+unlikely.
+
+Surprisingly some cells showed a stronger sensitivity to the speed and
+amplitude of the fluctuations than the LIF model (n=10 out of 30). By
+penalizing slow and low amplitude fluctuations, sodium inactivation
+seem to be able to explain this phenomena. Our observation is thus
+analogous to the phenomena described in [[citet:Fernandez2011]] for
+pyramidal cells in rat CA1, where the authors found that a high
+conductance state (corresponding to fast fluctuations in our study)
+could evoke more spikes than a low conductance state (slow
+fluctuations here). Their study provides evidence for the role of fast
+sodium inactivation in the sensitivity to the speed of the
+fluctuations and is therefore compatible with our modeling
+results. Because of its role in promoting large amplitude and/or fast
+fluctuations, sodium inactivation seems to be a key property in
+shaping the input-output properties of layer V pyramidal cells in the
+fluctuation-driven regime.
+
+Finally, we did not discuss the impact of other subthreshold
+non-linearities usually present in pyramidal cells such as the Ih
+current. This mechanisms is weakly expressed in the pyramidal cells of
+our recordings (see response to current steps in Figure
+[[fig:exp-charact]]C). Nevertheless, we investigated its effect on the
+firing response (not shown). Because of its high pass filtering
+behavior, it would have an effect very similar to the one of sodium
+inactivation: penalizing slow fluctuations and therefore increasing
+the sensitivity to \tau_V.
+
+In conclusion, our study shows that the spiking response of cortical
+neurons is highly inhomogeneous in juvenile mice visual
+cortex. Because we see no evidence for any type of invariance of
+cellular responses (after rescaling by membrane parameters), this
+aspect of cellular heterogeneity should then be considered as an
+additional component to the diversity in cell size and shape
+classically reported in cerebral cortex.
+
+Those diverse firing responses will consequently strongly affect
+population rate dynamics in the low rate fluctuation-driven
+regime. Such results and measurements should be incorporated into
+mean-field descriptions of cortical dynamics to understand the
+properties emerging at the network level , which constitute the main
+perspective for future continuation of the present work.
 
 
 * Material and Methods 
@@ -272,11 +819,11 @@ potential fluctuations.
 In the case of a fluctuating synaptic input with temporal dynamics
 (e.g. resulting from a shotnoise of /exponential/ synapses considered
 in this study, unlike the /delta/ synapses considered in other
-studies, see [[citetext:Amit1997]] for an example), the autocorrelation
+studies, see [[citet:Amit1997]] for an example), the autocorrelation
 function is not an exponential function. Consequently, the resulting
 membrane fluctuations can not be characterised by a single time
 constant $\tau_V$ (see the inset in Figure
-[[fig:3D-motiv]]B). Nevertheless, the time constant taken from an
+[[fig:3D-motiv]]). Nevertheless, the time constant taken from an
 exponential approximation of the normalized autocorrelation function
 corresponds to a first order description of the autocorrelation and
 will be the main contributor to the temporal dynamics of the
@@ -284,7 +831,7 @@ fluctuations.
 
 As a theoretical prediction for this /global autocorrelation/ time, we
 take the half integral of the normalized autocorrelation correlation
-function (gray area in the inset of Figure [[fig:3D-motiv]]B):
+function:
 
 #+NAME: eq:Tv-def
 \begin{equation}
@@ -293,7 +840,7 @@ function (gray area in the inset of Figure [[fig:3D-motiv]]B):
 
 where \( A(\tau) \) is the autocorrelation function of the V_m
 fluctuations (see an example of \( A(\tau)/A(0) \) in Figure
-[[fig:3D-motiv]]). From shotnoise theory [[cite:Daley2007]], we will obtain
+[[fig:3D-motiv]]). From shotnoise theory [[citep:Daley2007]], we will obtain
 the power spectral density of the V_m fluctuations \( P_V(f) \), so we
 re-express the global autocorrelation time as:
 
@@ -325,7 +872,7 @@ characterize the dependency on those precise variables, we wanted a
 stimulation that would minimize the higher order terms appearing for
 realistic synaptic inputs, e.g. when injecting excitatory and
 inhibitory Ornstein-Uhlenbeck conductances
-[[cite:Destexhe2001a,Fernandez2011]]. We chose the following stimulation.
+[[citep:Destexhe2001a,Fernandez2011]]. We chose the following stimulation.
 
 The mean membrane potential is achieved through a constant current
 input:
@@ -377,8 +924,8 @@ this input will have the following time course:
  (\tau_\mathrm{m}^\mathrm{eff} - \tau_S)}
 \end{equation}
 
-From shotnoise theory [[cite:Daley2007]] (see also
-[[citetext:ElBoustani2009a]] for an application similar to ours), we can
+From shotnoise theory [[citep:Daley2007]] (see also
+[[citet:ElBoustani2009a]] for an application similar to ours), we can
 obtain the power spectral density of the V_m fluctuations \( P_V(f) \)
 as a response to the stimulation Equation [[eq:fluct-eq]]:
 
@@ -472,7 +1019,7 @@ Because the stimulation depends on the membrane properties (see the
 previous section[[sec:stimulation-design]]), it was crucial to insure the
 stability of those properties during the experiments. We therefore
 monitored the cellular properties in time in an analogous manner to
-[[citetext:Kondgen2008a]].
+[[citet:Kondgen2008a]].
 
 In between the episodes, we use the resting period to measure the
 resting membrane potential $E_\mathrm{L}$ and we inject a short
@@ -520,8 +1067,9 @@ of the scanned input points and the use of multiple seeds.
 
 The general model considered in this study is the inactivating
 Adaptative Exponential and Fire model. It is constructed by combining
-the theoretical models proposed in [[citetext:Brette2005a]] and
-[[citetext:Platkiewicz2011]].
+the theoretical models proposed in [[citet:Brette2005a]] and
+[[citet:Platkiewicz2011]].
+
 
 #+NAME: eq:iAdExp
 \begin{equation}
@@ -536,10 +1084,10 @@ the theoretical models proposed in [[citetext:Brette2005a]] and
 
 where $I_{syn}(V, t)$ is the current emulating synaptic activity that
 will create the fluctuations, $I_w$ reproduces the I_m current
-[[cite:McCormick1985]] and $\theta(t)$ is a variable threshold whose
+[[citep:McCormick1985]] and $\theta(t)$ is a variable threshold whose
 temporal dynamics and voltage dependence accounts for the fast
 decrease in sodium channel availability at depolarized levels
-[[cite:Hille2001]].
+[[citep:Hille2001]].
 
 The temporal dynamics of sodium inactivation and spike frequency
 adaptation were fixed to \tau_i=5ms and \tau_w = 500ms
@@ -586,7 +1134,7 @@ the study (see figure legends).
 <<sec:simple-approx>>
 
 The starting approximation that we will use has been introduced in
-[[cite:Amit1997]]. Our situation is different, we have a more complex
+[[citep:Amit1997]]. Our situation is different, we have a more complex
 synaptic input but we only want the stationary firing rate, so we
 justify this estimate in a more abstract manner.
 
@@ -687,7 +1235,7 @@ have been done thanks to the =SciPy= package.
 
 Additional analysis and information can be found at
 https://github.com/yzerlaut/heterogenous_firing_response
-[[cite:Zerlaut2015]]. It contains the data from all cells, the fitting
+[[citep:Zerlaut2015]]. It contains the data from all cells, the fitting
 procedure as well as the numerical simulations presented in this
 paper.
 
@@ -721,563 +1269,26 @@ FP7-604102). The authors declare no competing financial interests.
 
 
 
-* Results 
-<<sec:results>>
-\normalsize
-
-The paper is organized as follows: we start by we defining the
-fluctuation-driven regime at the soma and designing a method to
-reproduce this somatic dynamical state under dynamic-clamp
-experiments. We also derive a flexible template for the firing rate
-response, whose accuracy is demonstrated on various theoretical
-models. Then, we investigate the firing response of layer V pyramidal
-cells in mice juvenile cortex and we analyze the individual features
-of single neuron responses. Finally, we explore the putative
-biophysical origin of the observed response in theoretical models of
-neocortical neurons.
-
-** A three-dimensional description of the dynamical state at the soma in the fluctuation-driven regime
-<<sec:3D-space>>
-
-#+ATTR_LATEX: :float c :width .6\linewidth
-#+CAPTION: *Investigating somatic computation in the fluctuation-driven regime* *(A)* Schematic illustration on a layer V pyramidal cell in cat V1 [[cite:Contreras1997]] together with theoretical distribution of inhbitiory (red) and excitatory (green) synaptic inputs. Synaptic and dendritic integration of pre-synaptic spike trains (two sample spike trains in upper right) produce membrane potential fluctuations at the soma as recorded intracellularly in current-clamp. *(B)* A sample trace of membrane potential integrating inputs from all inhibitory and excitatory synapses (black trace). We characterize those fluctuations by a mean \mu_V (dashed horizontal line), a standard deviation \sigma_V of sub-threshold oscillations (gray background) and global autocorrelation time \tau_V (gray background, determined from the half integral of the normalized autocorrelation function in the inset, see Methods[[sec:autocorrel-def]]). The properties of those fluctuations determine the spiking probability of the neuron (three spikes visibile in the membrane-potential trace).
-#+NAME: fig:3D-motiv
-[[file:./figures/vm_traces.pdf]]
-
-
-Determining the cellular input-output functions is complex because
-input of neocortical neurons are mostly in dendrites and output spikes
-are generated in initial segments of an axon as reviewed in
-[[citetext:Stuart2015]] and [[citetext:Debanne2011]] 
-input will therefore crucially shape their input-output
-relationship. Various parameters of presynaptic activity can
-arbitrarily control the properties of the membrane potential
-fluctuations at the soma. Those properties can be quantified by
-identifying three somatic variables that provide a reduced description
-of the dynamical state at the soma in the /fluctuation-driven/ regime:
-the mean \mu_V, the standard deviation \sigma_V of the membrane
-potential fluctuations and their typical autocorrelation time $\tau_V$
-(see Methods[[sec:autocorrel-def]]). For example, the
-excitatory/inhibitory balance controls the mean depolarization at the
-soma \mu_V, the mean synaptic bombardment impacts the standard
-deviation \sigma_V and the speed of the membrane potential
-fluctuations \tau_V. Other effects such as synchrony in the
-presynaptic spike trains or ratio between distally and proximally
-targeting synaptic activity also affect the statistical properties of
-the fluctuations. The effects of synaptic input and its dendritic
-integration on somatic variables can be investigated theoretically
-using cable theory [[cite:Tuckwell2002]] and will be the focus of a future
-communication.
-
-Because the spike initiation site lies electrotonically close to the
-soma [[cite:Debanne2011]], we assume that those three purely somatic
-variables will define the firing rate uniquely. In this study we
-investigate the firing response as a function of those variables
-(illustrated on Figure [[fig:3D-motiv]]).
-
-We therefore designed a stimulation protocol to reproduce awake-like
-dynamical state at the soma and investigate the firing response in
-this three dimensional space. We evaluate the parameters of stochastic
-current and static conductance that would result in a particular
-configuration of the V_m fluctuations (\mu_V, \sigma_V and \tau_V) for
-passive membrane using a single-compartment approximation
-[[cite:Kuhn2004]].  This procedure allows to focus on how active currents
-convert fluctuations into spikes. Another advantage of this approach
-is that it naturally rescales the input with respect to the individual
-cellular properties (R_m, C_m and E_L) and therefore allows a
-cell-by-cell comparison. In addition, we investigated domains of the
-dimensionless variable \tau_V^N = \tau_V / \tau_m^0 instead of
-absolute values for membrane time constant \tau_V to account for
-scaling of the synaptic inputs with membrane area (Equation [[eq:TvN]] in
-Methods[[sec:stimulation-design]]).
-
-
-
-** Template for the firing rate response of single neurons 
-<<sec:building-template>>
-
- A key challenge for the /in vitro/ characterization of input-output
- relationship is to extract a reliable quantitative estimation of its
- functional form from a limited number of experimentally sampled points.
-
-One approach consists in fitting the response to the formula derived from
- a specific theoretical model, such as leaky integrate-and-fire neuron
- [[cite:Rauch2003,Lundstrom2009a]]. This strategy has three drawbacks: 1)
- the complexity of the analytical formula requires a careful numerical
- determination and thus render fitting procedures non trivial, 2) it
- does not generalize easily to biophysically-realistic synaptic input
- (e.g. reproducing synaptic dynamics, see [[citetext:Brunel1998a]]) and 3)
- the low number of parameters of simple theoretical models (e.g. a
- single spike threshold for the leaky integrate-and-fire model)
- imposes that the membrane parameters (e.g. leak conductance and
- membrane capacitance) are free parameters to have enough degree of
- freedom.
-
- We propose here a different strategy: we introduce a flexible
- analytical template fully determined by membrane parameters, which
- are experimentally measured, and some free parameters, which can be
- fitted using a simple two-step minimization procedure.
-
- The basis for the template rely on a simple estimate, analogous to
- [[citetext:Amit1997]], for the firing rate response of the LIF model:
-
-#+NAME: eq:template
-\begin{equation}
-  \nu_\mathrm{out} = \frac{\textrm{Pr}(V>V_\mathrm{thre})}{\tau_V} = 
-\frac{1}{2\,\tau_V} \cdot 
-\mathrm{Erfc}(\frac{V_\mathrm{thre}-\mu_V}{\sqrt{2} \, \sigma_V})
-\end{equation}
-
- It is obtained heuristically by splitting the time axis in bins of
- length $\tau_V$, the spiking probability is then the probability that
- the membrane potential is above the threshold V_{thre} (see
- Methods[[sec:simple-approx]]). In comparison with earlier approach
- [[cite:Amit1997]], we take here the global autocorrelation time instead
- of the membrane time constant. We used this approximation as a
- baseline trend for the firing rate response and the properties of an
- individual cell will be described by deviations from this baseline
- behavior.
-
- We found that those deviations could be accurately accounted for by
- replacing the hard threshold of the approximation $V_\mathrm{thre}$ by
- a linear phenomenological threshold:
-
-#+NAME: eq:linear-threshold
-\begin{equation}
-  \begin{split}
-   V_\mathrm{thre}^\mathrm{eff} & (\mu_V, \sigma_V, \tau_V^N) = P_0 + \\
-   & P_\mu \, \frac{\mu_V - \mu_V^0}{\delta \mu_V^0} +
-   P_\sigma \, \frac{\sigma_V - \sigma_V^0}{\delta \sigma_V^0}
- + P_\tau \, \frac{\tau_V^N - \tau_V^{N0}}{\delta \tau_V^{N0}}
- \end{split}
-\end{equation}
-
-The quantities: \( ( \mu_V^0, \delta \mu_V, \sigma_V^0, \delta
-\sigma_V, \tau_V^{N0}, \delta \tau_V^N ) \) are constant rescaling
-factors of the (\mu_V, \sigma_V, \tau_V^N) space, see
-Methods[[sec:fitting]].
-
-A practical advantage of the template (Equation [[eq:template]]) is that,
-given some data \(\nu_\mathrm{out}(\mu_V, \sigma_V, \tau_V^N)\), we
-can invert the equation to get the phenomenological threshold as a
-function of the output firing rate:
-
-#+NAME: eq:effective-threshold
-\begin{equation}
-\begin{split}
- V_\mathrm{thre}^\mathrm{eff}( & \nu_\mathrm{out}, \mu_V, \sigma_V, \tau_V^N) = \\ & \sqrt{2} \, \sigma_V \, \mathrm{Erfc}^{-1}(2 \, \tau_V^N \, \tau_m^0 \, \nu_\mathrm{out}) +\mu_V, \, \,  \forall \, \nu_\mathrm{out} > 0
-\end{split}
-\end{equation}
-
-Where Erfc^{-1} is the inverse of the complementary error function.
-
- We used this property to design the final fitting procedure: given
-some data \(\nu_\mathrm{out}(\mu_V, \sigma_V, \tau_V^N)\), we
-calculate the phenomenological threshold data using Equation
-[[eq:effective-threshold]] and fit coefficients P_0, P_{\mu_V},
-P_{\sigma_V}, P_{\tau_V} by linear regression. Then starting from
-those coefficients we perform a non-linear least-square fitting. Those
-two steps guarantee that the non-linear optimization starts from a
-good initial guess and ensures that the gradient-descent method
-converges close to the global minimum.
-
-
-** Firing rate response of theoretical models
-
-#+NAME: fig:model-response-and-fit
-#+ATTR_LATEX: :float multicolumn
-#+CAPTION: *The analytical template (Equations [[eq:template]] and [[eq:linear-threshold]]) can capture the firing rate response of various theoretical models.* Shown for the leaky integrate and fire model (LIF) with V_{thre}=-47mV (kept for all following models), the exponential integrate and fire (EIF) with \(k_a=2\mathrm{mV}\), the leaky integrate and fire with spike-frequency adaptation (sfa-LIF) with \(b=20\mathrm{pA}\), the inactivating leaky integrate and fire  (iLIF) with  \(a_i = 0.6\) and the inactivating adaptative exponential integrate and fire (iAdExp) model that combines all the previously mentioned mechanism with \(k_a=2\mathrm{mV}, b=6\mathrm{pA}, a_i = 0.6\). *(A)* Response of the models to a current step. Plain line: response to depolarizing current step, dashed line: response to hyperpolarizing current step. For the iLIF and iAdExp models, we show in red the dynamics of the threshold \theta(t). *(B)* 3d visualization of the firing rate response, the (x,y) axis is the (\mu_V, \sigma_V) place and the color indexes variation of the global autocorrelation ratio $\tau_V/\tau_m^0$. *(C)* Projections along the standard deviation \sigma_V axis for different mean polarization levels \mu_V. Data (points) and fitted analytical template (thick transparent lines). Note the shifts in the scanned $\mu_V$ domain to reach a comparable firing range despite a reduced excitability (see main text). *(D)* Phenomenological threshold V_{thre}^{eff} that leads to the fitted firing response, the coefficients of the linear functions can be found in Table [[table:Figure-1]].
-[[file:./figures/template_fit_models.pdf]]
-
-We start by demonstrating the accuracy and flexibility of this
-phenomenological description on the firing rate response for various
-theoretical models (Figure [[fig:model-response-and-fit]]).
-
-The model considered in this study is the inactivating adaptative
-exponential and fire (Methods[[sec:theoretical-models]]), which extends
-the model of [[citetext:Brette2005a]] by adding an inactivation mechanism
-[[cite:Platkiewicz2011]]. Several widespread theoretical models are
-special cases of this model: the leaky integrate and fire (LIF), the
-exponential integrate and fire (EIF, [[citetext:Fourcaud-Trocme2003]]), the
-inactivating leaky integrate and fire (iLIF, [[citetext:Platkiewicz2011]]). We
-also define a LIF model with spike-frequency adaptation only (sfaLIF).
-
-We show on Figure [[fig:model-response-and-fit]] that the template is able
-to describe the firing rate response of those various theoretical
-models. The impact on firing of those different biophysical properties
-of those models could all be accurately captured by differences in the
-linear phenomenological threshold (Figure
-[[fig:model-response-and-fit]]D).
-
-We compared the four-parameter description to simpler and more complex
-models in which the phenomenological threshold is: constant (1
-parameter), linear function (4 parameters) and second-order polynomial
-of \mu_V, \sigma_V and \tau_V^N (10 parameters). The goodness to fit
-of the single-parameter description was 84.6% \pm 8.9; it increased to
-99.0% \pm 0.5 for the four-parameter description; and then to 99.6%
-\pm 0.2 for the quadratic phenomenological threshold with 10
-parameters. We conclude that the four-parameter description offers a
-good compromise between goodness-to-fit and number of parameters and
-will consequently avoid over-fitting of the experimental data.
-
-#+NAME: table:Figure-1
-#+CAPTION: *Fitted coefficients of the linear phenomenological threshold for the theoretical models shown in Figure [[fig:model-response-and-fit]]* 
-| model | \(P_0\)(mV) | \(P_\mu\)(mV) | \(P_\sigma\)(mV) | \(P_\tau\)(mV) |
-|-------+-------------+---------------+------------------+----------------|
-#+INCLUDE: ../tables/model_fitted_coeff.org
-|-------+-------------+---------------+------------------+----------------|
-
-In absence of active mechanisms, membrane potential fluctuations are
-statistically identical in all theoretical models (by design, they are
-the same leaky RC circuit). The active mechanisms may nonetheless have
-an impact on the membrane potential fluctuations themselves and will,
-by this mean, impact the firing response. In our description, those
-effects are captured by the phenomenological threshold. For example,
-the stationary spike-frequency adaptation level induces a net
-hyperpolarizing current, which, in our description, leads to an
-increased phenomenological threshold (sfaLIF vs. LIF in Figure
-[[fig:model-response-and-fit]]D).
-
-
-** Link between the biophysical properties and the characteristics of the firing rate response in theoretical models
-<<sec:sensitivities>>
-
-#+NAME: fig:illustration-sensitivities
-#+ATTR_LATEX: :float multicolumn
-#+CAPTION: *Extracting the mean properties of a single neuron response: excitability and sensitivities to the variables of the /fluctuation-driven/ regime*. *(A)* Illustration on the LIF response. From the fitting procedure we obtain an analytical description of the firing rate response (center plot). We focus the analysis on the domain $\mathcal{D}$ of the low rate fluctuation-driven regime (see main text[[sec:sensitivities]]), its extent is delimited by the white square. The mean phenomenological threshold in the $\mathcal{D}$ domain quantifies the excitability (top left: large dashed line). Then for each variable (top right: \tau_V^N, bottom left: \sigma_V, bottom right: \mu_V), we show the projections of the firing response along this dimension for different combinations of the two other variables within the $\mathcal{D}$ domain (the many small dotted lines). The mean derivative (arc angle and large dashed line) with respect to this variable over different combinations of the two other variables quantifies the mean sensitivity to this variable. *(B)* Excitabilities for the LIF, EIF, sfaLIF and iLIF models (parameters as in Figure [[fig:model-response-and-fit]]). *(C)* Mean sensitivities to $\mu_V$. *(D)* Mean sensitivities to $\sigma_V$. *(E)* Mean sensitivities to $\tau_V / \tau_m^0$ for the four models.
-[[file:./figures/illustration_excitability_sensitivities.pdf]]
-
-To capture the particular features determining the properties of
-neuronal computation in the fluctuation-driven regime, we now turn to
-analyzing firing rate responses of the models.  We define four simple
-quantities that provide a reduced description of the response of a
-single neuron: a mean excitability (mean phenomenological threshold)
-and average sensitivities to variations of mean \mu_V, standard
-deviation \sigma_V and speed of the fluctuations \tau_V^N. The
-quantities were average for all combination of the three input
-variables consistent with awake-like conditions (low-rate, 1 - 15 Hz,
-fluctuation-driven regime, $\mathcal{D}$ domain in Figure
-[[fig:illustration-sensitivities]]).
-
- The response of the LIF model provides a basic picture for the firing
- rate response (see LIF in Figure [[fig:model-response-and-fit]] and
- Figure [[fig:illustration-sensitivities]]A). Spiking increases with mean
- depolarization and the standard deviation (bottom panels in Figure
- [[fig:illustration-sensitivities]]A), while it decreases with the global
- autocorrelation time (top right panel in Figure
- [[fig:illustration-sensitivities]]A). More sophisticated biophysical
- mechanisms implemented in the considered theoretical models
- (exponential activation, adaptation, etc.) affect those
- characteristics.  First of all, those mechanisms suppress spiking and
- therefore reduce the mean excitability of all the models (Figure
- [[fig:illustration-sensitivities]]B). The effect on average sensitivities
- is more complex.
-
- The substitution of the hard threshold of LIF with an exponential
- function in EIF imitates the gradual opening of sodium channels in
- time.  This property has a very strong impact on the dependency on
- the speed of the fluctuations (Figure
- [[fig:illustration-sensitivities]]E). In contrast to LIF, fast
- fluctuations do not lead to an increase of spiking. This effect,
- which occurs due to the inability of smooth sodium activation curve
- to extract fast varying fluctuations [[cite:Fourcaud-Trocme2003]], is
- well captured by our analysis: the sensitivity to \tau_V^N is much
- reduced for the EIF with respect to the LIF model.
-
- The spike frequency adaptation of sfaLIF reproduces the effect of a
- calcium-dependent potassium current (Im current) that tend to
- hyperpolarize neocortical pyramidal neurons at each spike occurrence
- [[cite:McCormick1985]]. This is an effect that attenuates firing and
- because it is proportional to firing itself it should reduce the
- dependencies to all variables. Indeed the sensitivities to \mu_V and
- \sigma_V are strongly attenuated with respect to LIF (Figure
- [[fig:illustration-sensitivities]]C-D). In contrast, the sensitivity 
- \tau_V^N is only mildly affected. The temporal dynamics of the hyperpolarizing current
- (\tau_W=500ms) penalizes temporally neighboring output spikes, consequently slow fluctuations are more strongly
- dampened than fast fluctuations which restores the sensitivity to
- \tau_V^N (Figure [[fig:illustration-sensitivities]]E).
-
- The iLIF model reproduce the fast inactivation properties of sodium
- channels (see [[citetext:Hille2001]] for a review). Close to threshold,
- sodium channels tend to rapidly inactivate (\tau_{inact}=5ms). This
- mechanism clearly favors fast and high amplitude fluctuations, which
- allow to trigger a spike before the channels become
- unavailable. Indeed, the sensitivity to \sigma_V and \tau_V^N is
- strongly enhanced (see Figure [[fig:illustration-sensitivities]]D-E).
-
-
-** Response of juvenile mice layer V pyramidal neurons /in vitro/ with the perforated-patch technique
-<<sec:exp-charact>>
-
-#+NAME: fig:exp-charact
-#+ATTR_LATEX: :float multicolumn
-#+CAPTION: *The exploration of a physiologically-relevant space can be achieved /in-vitro/ with a good stability by combining the dynamic-clamp technique with perforated patch recordings*. From *B* to *E*, one cellular example. *(A)* A typical layer 5 pyramidal neuron in the primary visual cortex of juvenile mice. Picture from additional experiments: marking with 2\% Biocytin (Sigma Aldrich) in whole cell configuration. *(B)* After diffusion of the perforant molecule toward the patch of membrane, a step voltage clamp protocol estimates the quality of the seal and perforation (see details in the methods[[sec:electrophy]]). *(C)* A step current clamp protocol estimate the passive membrane properties. Those properties are used by the stimulation protocols to constrain the V_m fluctuations (see methods[[sec:stimulation-design]]). *(D)* All along the recording, we monitor the cellular properties: the resting membrane potential $E_\mathrm{L}$, the membrane resistance $R_\mathrm{m}$ and the variations of the firing rate with respect to the stationary behavior $\mathrm{CV}_\nu$ (see details in the main text[[sec:exp-charact]] and in the methods[[sec:monitoring]]). The smoothen data (red curve) show the global trend, it removes the measurement error due to the short sampling time for $R_\mathrm{m}$ and $E_\mathrm{L}$ (see *E*), for $\mathrm{CV}_\nu$, it removes the intrinsic spiking irregularity. For the $\mathrm{CV}_\nu$ curve we have added the standard deviation (mean \pm std in red) for comparison with a stationary Poisson process (mean \pm std in black). *(E)* Sample of the membrane potential $V_\mathrm{m}$, the injected current $I$ and the total conductance $\mu_G$ at the beginning of the recording (left,t=17.7min, blue star in *D*) and one hour after (right, t=71.8min, red star in *D*). Within an episode, we scan one combination of the (\mu_V, \sigma_V, \tau_V^N) variables. For example, the middle episode corresponds to the most depolarized level \mu_V (hence the lower spike amplitude due to Na inactivation) with the fastest fluctuations \tau_V^N (i.e. an high input conductance \mu_G, also shunting the spikes, see the strong opposite current) and an intermediate variance $\sigma_V$. In between the two first episodes, one can see rest period (to monitor $E_\mathrm{L}$) followed by a current pulse (to monitor $R_\mathrm{m}$).
-[[file:./figures/experimental_system.pdf]]
-
-We now use the above analytical tools to determine experimentally firing rate responses /in vitro/.
-Scanning the response of neocortical neurons in the fluctuation-driven
-regime is experimentally challenging because it is characterized by an
-irregular firing at low rates (\sim 0.1-20 Hz). To obtain a meaningful
-estimation of the firing rate response we need long and stable
-recordings [[cite:Rauch2003,Kondgen2008a]].  Both to obtain this stability
-and to ensure the integrity of the intracellular medium (in particular
-to maintain a physiological Ca^{2+} dynamics), we chose the
-/perforated patch/ technique [[cite:Rae1991,Lippiat2008]], in which
-electrical access is obtained by inserting a conducting pore
-(Amphotericin B protein permeant only to monovalent ions) in a patch
-of membrane [[cite:Wendt1992,Kyrozis1995]].  Although the technique may
-sometimes limit the quality of the electrical access to the cell, we
-achieved very low ratios between the access resistance and the
-membrane resistance (4.7 \pm 2.6 %, see also [[citetext:Rae1991]]), thus
-allowing for reliable use of the /dynamic-clamp/ technique
-[[cite:Destexhe2009]].
-
-We monitored the stability of recordings by means of three
-quantities: 1) the resting membrane potential, 2) the membrane
-resistance and 3) the variations of the firing rate probability and
-formulated strict criteria for the stability of the recordings (see
-Figure [[fig:exp-charact]]E).
-
-The resulting dataset contains n=30 cells, it totals to 65455 spikes
-fired at an average frequency of 3.62Hz, i.e. within the low rate
-fluctuation-driven regime defined above (1 - 15 Hz). This relatively
-large amount of data was necessary to extract the biophysical
-relations between the fluctuations properties and the stationary
-firing rate.
-
-#+NAME: fig:data-response-and-fit
-#+ATTR_LATEX: :float multicolumn
-#+CAPTION: *Characterization of the firing rate response of the recorded neocortical pyramidal neurons*. *(A)* Four examples of the firing rate response of single neurons, data (diamonds, error bars indicate variability estimated as the standard deviation from responses to multiple trials where available) and fitted template function (plain line), the cells are indexed from 1 to 4 to identify them in the heterogeneity analysis (Figure [[fig:cellular-heterogeneity]]). *(B)* For 21 neurons scanned with at least of 70 different combinations of input statistics, we split the dataset into two and investigate the similarity of the coefficients between the two subsets. The relatively high and significant (p<0.05, Pearson correlation) correlation coefficients between characterizations in the first and second datasets indicate a robust characterization of the firing rate response.
-[[file:./figures/cellular_examples.pdf]]
-
-
-We investigated whether the combination of the analytical template
-(and its fitting procedure) with our experimental recording protocols
-was able to produce a reliable characterization of the firing rate
-response of layer V neocortical neurons in juvenile mice visual
-cortex.
-
-For each of the n=30 cells, we obtained a given scan of the \(\mu_V,
-\sigma_V, \tau_V^N \) space and applied our fitted procedure. We show
-the data and the fit for four examples in Figure
-[[fig:data-response-and-fit]]. The goodness-to-fit of our template was
-high (goodness-to-fit of 88.6% \pm 9.4, compared to only 38.4% \pm
-35.3 for the constant threshold and 90.6% \pm 9.2 for the quadratic
-phenomenological threshold), the small divergence is due to intrinsic
-irregularity of the low-rate spike process (sampled over 5 s per
-episode, Figure [[fig:exp-charact]]E). In spite of this variability, the
-linear threshold averages the intrinsic firing irregularity and
-produces a reliable characterization of the firing rate response.
-
-To quantify the robustness of the experimental characterization, we
-splitted the measurements into two sets and investigated whether the
-first slice of data would give the same phenomenological threshold as
-the second slice of data. We found a good agreement if the number of
-scanned configuration of input space (\mu_V, \sigma_V, \tau_V) was
-n_{points} $\geq$ 70 (Pearson correlations, c>0.8 and p<1e-5 for the
-correlations between first and second slice of data, Figure
-[[fig:data-response-and-fit]]B). The high Pearson correlations between the
-response characteristics in the first and second slice of data
-indicates that the characterization is robust for a slice of data
-having n_{points} $\geq$ 35. Among the 30 cells used for further
-analysis, the cell with the minimum number of points had n_{points}=42
-scanned combinations meeting the above criterion for the robustness.
-
-
-** Single neurons show strongly heterogeneous firing rate responses
-<<sec:heterogeneity>>
-
-A striking feature in the response of the recorded cells is the
-differences in their response. 
-
-#+NAME: fig:cellular-heterogeneity
-#+ATTR_LATEX: :float multicolumn
-#+CAPTION: *Heterogeneity and underlying structure of the firing response of neocortical cells* *(A)* Histogram over recorded cells of the mean excitabilities and sensitivities to the variables of the fluctuations. The dashed color lines show the values of theoretical models for comparison. *(B)* Scatter plot of the mean excitability and sensitivities to the variables of the fluctuation-driven regime, we highlighted the cells shown in Figure [[fig:data-response-and-fit]] with larger markers. *(C)* Principal component analysis, in the inset, the vector coordinates of the two first components 
-[[file:./figures/cellular_heterogeneity.pdf]]
-
-We illustrate this property on the four examples shown in Figure
-[[fig:data-response-and-fit]]A. Cells 1 and cell 4 show a very
-strong dependency on speed of the fluctuations \tau_V, whereas cells 2 and 3 are almost insensitive to
-to this parameter (different colors in [[fig:data-response-and-fit]]A). The dependency on the standard deviation of fluctuations \sigma_V is steeper 
-for cell 2 than for cells 3 and 4. Also the sensitivity to \mu_V
-seems to be variable, a 10 mV depolarization has stronger effect
-on responses of cell 4 than cell 3. Finally, the
-cell excitabilities are also highly variable, so that they reach the 1-15Hz
-firing range at various depolarization levels (e.g. compare cell 2 and 3).
-Similar differences are present in all recorded pyramidal cells
-(Figure [[fig:cellular-heterogeneity]]A).
-
-This strong heterogeneity raises the question whether there is an
-underlying structure in the variations of the characteristics of the
-firing rate response and how could it be explained by diverse
-biophysical mechanisms. 
-
-First, when plotted in four-dimensional space of the firing response
-characteristics the data did not seem to distribute into distinct
-clusters (Figure [[fig:cellular-heterogeneity]]B). Presented on two
-dimensional projections, the data semt to show some degree of
-covariations (Pearson correlation analysis in Figure
-[[fig:cellular-heterogeneity]]B). We then looked for the four-dimensional
-structure of those covariations in the response characteristics by
-means of a principal component analysis (Figure
-[[fig:cellular-heterogeneity]]C). No single co-variation of the
-sensitivities could explain a strong percentage of the observed
-heterogeneity, suggesting that the structure is relatively weak.
-
-Nonetheless, two vectors explained 75% of the variations in the
-data. The first vector corresponds to a covariation of the
-sensitivities to mean and amplitude of the fluctuations. This
-comodulation can be achieved in the sfaLIF model, varying the weight
-of spike frequency adaptation concomitantly varies the sensitivities
-to \mu_V and \sigma_V (Figure [[fig:biophysics-explain-heter]]C). The
-second vector corresponds to a covariation of a decrease in the
-excitability and an increase in the sensitivity to the speed of the
-fluctuations. The variability in excitabilities is quite remarkable,
-to reproduce it in the LIF model one needs variations of the threshold
-V_{thre} that spans nearly 15 mV (see Figure
-[[fig:biophysics-explain-heter]]). The variability in the sensitivity to
-\tau_V covers a wide range of parameters in theoretical models, from
-an EIF model with a smooth curve (k_a=2mV) to a strongly inactivating
-iLIF model (a_i=0.7). Increasing the threshold while increasing the
-impact of sodium inactivation and increasing the sharpness of the
-sodium activation curve would therefore reproduce the second component
-of the principal components analysis.
-
-#+NAME: fig:biophysics-explain-heter
-#+ATTR_LATEX: :float multicolumn
-#+CAPTION: *Variations in the expression of biophysical mechanisms explain the observed cellular heterogeneity in their firing rate response*. *(A)* Increasing the threshold V_{thre} of the LIF model. Note that this only affects the excitability and negligibly the sensitivities to \mu_V, \sigma_V and \tau_V^N. *(B)* Decreasing the sharpness of the sodium activation curve in the EIF model, k_a=0mV corresponds to the LIF model, k_a=3.7mV corresponds to a very smooth activation. Note the strong impact on the sensitivity to \tau_V^N. *(C)* Increasing spike frequency adaptation in the sfaLIF model, b=0 mV corresponds to the LIF model, b=35pA corresponds to a strongly adapting model. Note the concomitant variations of the sensitivities to \mu_V and \sigma_V.  *(D)* Increasing sodium inactivation in the iLIF model, a_i=0 corresponds to the LIF model, a_i=0.7 corresponds to a strongly inactivating model. Note the strong impact on the increase in sensitivity to sigma_V and \tau_V^N. *(E)* Histogram of the data from the n=30 neurons. 
-[[file:./figures/biophysics_explain_heterogeneity.pdf]]
-
-
-* Discussion
-
-We studied systematically the firing rate response of different
-neuronal models as well as /in vitro/ layer V pyramidal cells as a
-function of the three variables composing our definition of the
-/fluctuation-driven/ regime.
-
-Compared to previous studies [[cite:LaCamera2008]], we focused on the low
-rate regime and we extended the domain of somatic /in vivo/-like
-conditions. In particular, we investigated the dependency on the
-firing rate for high somatic conductance and low autocorrelation time
-of the membrane potential fluctuations. Scanning the response to low
-autocorrelation time allowed to highlight the impact of sodium
-inactivation because this is the regime where the temporal dynamics of
-this features is likely to play (\tau_{inact} \sim 5\mathrm{ms}).
-
-We formulated a two-step procedure to circumvent the issue of
-spatially distributed inputs in neocortical neurons where the
-intermediate quantities are the properties of the V_m fluctuations at
-the soma. Other investigators studied the response to the noisy
-current input properties at the soma and then addressed the problem of
-how dendritic integration shape the properties of this current
-[[cite:LaCamera2008,Giugliano2008]]. Our approach can be seen as a way to
-include the mean conductance effect due to changes in background
-synaptic activity. The reason we presented the data as a function of
-the V_m fluctuations properties and not the quantity that the
-experimentalist actually controls (the current and the conductance) is
-that 1) it allows to compare individual cells and 2) as a function of
-the current and the conductance, the spiking response is dominated by
-subthreshold integration effects, e.g. for a same variance of input
-current, an increasing conductance would decrease the V_m fluctuations
-amplitude by shunting effects [[cite:Kuhn2004]]. The effects of the
-spike-related mechanisms are then difficult to de-intricate from those
-subthreshold effects. Here, we used analytical calculus to design a
-stimulation protocol that allows to control the fluctuations and
-therefore to focus on understanding the single neuron computation on
-top of the fluctuations properties.
-
-Starting from a simple approximation, we showed that bringing the
-problem into a phenomenological threshold space was a simple way to
-describe the firing rate response of neocortical neurons. Other
-investigators already reported that a shift in the threshold was a
-convenient way to account for increasing biophysical complexity
-[[cite:Brunel1998a,Platkiewicz2010]]. Unlike the two mentioned studies,
-the form of our phenomenological threshold was not derived
-mathematically (it was arbitrarily taken as linear) but we believe
-that the descriptive power of this very simple form further confirms
-the idea that the threshold space is a convenient space to work in.
-
-We showed that this template is able to describe the response of
-neuronal models of varying complexity. We then used this simple
-description to design a robust characterization of the firing rate
-response of single neurons experimentally. This approach, combined
-with the long and stable recordings provided by the perforated patch
-technique, was our way to circumvent the experimental and theoretical
-difficulties of assessing a relevant firing rate response in a low
-rate irregular firing regime.
-
-
-We now discuss the biophysical mechanisms relevant for the firing rate
-response of layer V pyramidal cells in juvenile mice visual cortex.
-
-First, spike frequency adaptation was shown to be an important
-mechanism to the firing rate response. Notably, all models lacking
-spike frequency adaptation (LIF, EIF, iLIF) had a sensitivity to \mu_V
-higher than all recorded cell. This mechanism is therefore crucial to
-reproduce the attenuated sensitivity to depolarizations of layer V
-pyramidal cells in mice visual cortex.
-
-Also, many cells showed a weaker sensitivity to the speed of the
-fluctuations than the LIF model (n=20 out of 30). This could be
-reproduced in theoretical models by implementing a smoother activation
-curve for the sodium channels (EIF models of varying sharpness). This
-observations contrasts with reports from studies in more mature
-pyramidal neurons in rat neocortex [[cite:Kondgen2008a,Ilin2013]], where
-it was found that pyramidal cells could have a very sharp activation
-curve that would enable them to extract very fast input.
-Nevertheless, even at the soma, the neurons of our recordings show a
-rather smooth activation curve: k_a \sim 1.5 mV (not shown) from the
-dynamic I-V curve analysis [[cite:Badel2008]] rendering this possibility
-unlikely.
-
-Surprisingly some cells showed a stronger sensitivity to the speed and
-amplitude of the fluctuations than the LIF model (n=10 out of 30). By
-penalizing slow and low amplitude fluctuations, sodium inactivation
-seem to be able to explain this phenomena. Our observation is thus
-analogous to the phenomena described in [[citetext:Fernandez2011]] for
-pyramidal cells in rat CA1, where the authors found that a high
-conductance state (corresponding to fast fluctuations in our study)
-could evoke more spikes than a low conductance state (slow
-fluctuations here). Their study provides evidence for the role of fast
-sodium inactivation in the sensitivity to the speed of the
-fluctuations and is therefore compatible with our modeling
-results. Because of its role in promoting large amplitude and/or fast
-fluctuations, sodium inactivation seems to be a key property in
-shaping the input-output properties of layer V pyramidal cells in the
-fluctuation-driven regime.
-
-Finally, we did not discuss the impact of other subthreshold
-non-linearities usually present in pyramidal cells such as the Ih
-current. This mechanisms is weakly expressed in the pyramidal cells of
-our recordings (see response to current steps in Figure
-[[fig:exp-charact]]C). Nevertheless, we investigated its effect on the
-firing response (not shown). Because of its high pass filtering
-behavior, it would have an effect very similar to the one of sodium
-inactivation: penalizing slow fluctuations and therefore increasing
-the sensitivity to \tau_V.
-
-In conclusion, our study shows that the spiking response of cortical
-neurons is highly inhomogeneous in juvenile mice visual
-cortex. Because we see no evidence for any type of invariance of
-cellular responses (after rescaling by membrane parameters), this
-aspect of cellular heterogeneity should then be considered as an
-additional component to the diversity in cell size and shape
-classically reported in cerebral cortex.
-
-Those diverse firing responses will consequently strongly affect
-population rate dynamics in the low rate fluctuation-driven
-regime. Such results and measurements should be incorporated into
-mean-field descriptions of cortical dynamics to understand the
-properties emerging at the network level, which constitute the main perspective for future
-continuation of the present work. 
-
-
 * References
 
 \bibliography{tex/biblio}
 
+\onecolumn
+\newpage
+\beginsupplement
 
 
+* Supplementary Information
+
+# \vspace{5cm}
+
+** Accuracy of the single compartment approximation
+<<sec:single-comp-data>>
+
+The single-compartment approximation is important in this study as it
+is used to constrain the fluctuations of the membrane potential. We do
+here a cell by cell quantification of the accuracy of the
+approximation. 
 
 
+\newpage

@@ -3,7 +3,7 @@ import os
 
 # SCRIPTS = ['paper', 'highlights', 'supplementary', 'report', 'litterature']
 # SCRIPTS = ['paper', 'presentation', 'highlights']
-SCRIPTS = ['paper']
+SCRIPTS = ['paper', 'supplementary']
 
 EXT = 'pdf' # extension for figure export : png or pdf !
 DPI = 300 # resolution for bitmap figures
@@ -66,7 +66,7 @@ def build_task_to_generate_tex(filename):
 
 def Build_task_for_pdflatex_compilation(filename):
     def func0():
-        os.system("echo '\RequirePackage{lineno}' > tex/preamble")
+        os.system("echo '\RequirePackage{natbib, lineno}' > tex/preamble")
         os.system("cp tex/"+filename+".tex tex/"+filename+"2.tex")
         os.system("cat tex/preamble tex/"+filename+"2.tex > tex/"+filename+".tex")
         return True

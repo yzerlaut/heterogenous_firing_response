@@ -1,61 +1,40 @@
-#+TITLE: Supplementary Material \\ \small{Firing rate response of neocortical pyramidal neurons in the fluctuation-driven regime}
-#+AUTHOR: Y. Zerlaut, B. Telenczuk,  C. Deleuze, T. Bal, G. Ouanounou* \& A. Destexhe*
+#+TITLE: _Supplementary Material_ \\[.5cm] Firing rate response of neocortical pyramidal neurons in the fluctuation-driven regime
+#+AUTHOR: Y. Zerlaut^{1,2}, B. Telenczuk^{1,2},  C. Deleuze^1, T. Bal^1, G. Ouanounou^{1}* \& A. Destexhe^{1,2}*
 
 \newpage
 
 * Details about the experimental data
-:PROPERTIES:
-:CUSTOM_ID: exp-details
-:END:
-
+<<sec:exp-details>>
 
  For each cell, its properties and the quality of the electrical
  access was quantified. We present here those data and look for
  relations between them.
 
-# --> FIGURE <-- #
-#+BEGIN_LATEX
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=.6\linewidth]{figures/fig_experimental_details}
-\caption{\bfseries Details about the presented dataset (animal age,
-  electrical access and membrane properties).
-\normalfont 
-\textbf{(A)} Histogram of the access resistance.
-\textbf{(B)} Histogram of the "Seal Quality", the current leak between
-the pipette and the patch of membrane.
-\textbf{(C)} Histogram of the full recording time. Corresponding either to
-the loss of cellular access (rarely) or to the exit of the criteria
-formulated in Section \ref{monitoring} (most common case).
-\textbf{(D)} Histogram of the membrane time constants.
-\textbf{(E)} Histogram of the membrane input resistance.
-\textbf{(F)} Histogram of the animal post-natal day per 
-recorded cell.
-\textbf{(G)} Cross correlations (Pearson correrlation) between
-all monitored quantities.}
-\label{fig-experimental-details}
-\end{figure}
-#+END_LATEX
 
-Some of the relations that appear are :
+# Some of the relations that appear ar
 
-- Very naturally, the membrane time constant is proportional to the input resistance
-  (c=0.8, $p<2.10^{-10}$)
+# - Very naturally, the membrane time constant is proportional to the input resistance
+#   (c=0.8, $p<2.10^{-10}$)
 
-- The recording time diminishes with the age of the animal 
-  ($p<1.10^{-3}$)
+# - The recording time diminishes with the age of the animal 
+#   ($p<1.10^{-3}$)
 
-- The membrane resistances and membrane time constants decrease with
-  the age of the animal even if they keep a strong variability
-  ($p<5.10^{-3}$ and $p<3.10^{-2}$ respectively).
+# - The membrane resistances and membrane time constants decrease with
+#   the age of the animal even if they keep a strong variability
+#   ($p<5.10^{-3}$ and $p<3.10^{-2}$ respectively).
 
-- The access resistant seems independent of all parameters
+# - The access resistant seems independent of all parameters
 
-- The quality of the seal does not seem to impede much the duration of
-  the recording (despite the fact that they are both correlated with
-  the age of the animal, there mutual correlation is low).
+# - The quality of the seal does not seem to impede much the duration of
+#   the recording (despite the fact that they are both correlated with
+#   the age of the animal, there mutual correlation is low).
 
-\newpage
+#+ATTR_LATEX: :float wrap :width 0.9\textwidth :placement {r}{0.9\textwidth}
+#+CAPTION: *Details about the presented dataset (animal age, electrical access and membrane properties).* *(A)* Histogram of the access resistance. *(B)* Histogram of the "Seal Quality", the current leak between the pipette and the patch of membrane. *(C)* Histogram of the full recording time. Corresponding either to the loss of cellular access (rarely) or to the exit of the criteria formulated in the Methods (most common case). *(D)* Histogram of the membrane time constants. *(E)* Histogram of the membrane input resistance. *(F)* Histogram of the animal post-natal day per recorded cell. *(G)* Cross correlations (Pearson correlation) between all monitored quantities.
+#+NAME: fig:exp-details
+[[file:./figures/experimental_details.pdf]]
+
+\clearpage
 
 *** histograms 							   :noexport:
 
@@ -203,68 +182,12 @@ os.system('eog ../figures/experimental_details.svg')
 
 
 * Accuracy of the single compartment approximation
-:PROPERTIES:
-:CUSTOM_ID: single-comp-data
-:END:
+<<sec:single-comp-supp>>
 
-The single-compartment approximation is important in this study as it
-is used to constrain the fluctuations of the membrane potential. We do
-here a cell by cell quantification of the accuracy of the
-approximation. 
-
- We quantify the accuracy of the approximation as follows. We take the
- protocols that were used to determine the membrane properties: prior
- to each protocol, we recorded and averaged the response to 10 current
- pulses of $\sim$ 500ms and of $\Delta I \sim$ 15pA amplitude, not the
- (noisy) continuous monitoring presented in Figure [[fig-exp-charact]]. We
- average over trials the membrane potential response and fit an
- exponential load to this mean response
- $V_\mathrm{sc}^\mathrm{fit}(t)$, we get a membrane time
- $\tau_\mathrm{m}^0$ and a membrane resistance $R_\mathrm{m}^0$. We
- define the residual trace as the normalized absolute difference
- between the fit and the trace :
-
-\begin{equation}
-\mathrm{Res}(t) = \frac{ \| V(t) - V_\mathrm{sc}^\mathrm{fit}(t) \| }{R_m^0 \Delta I}
-\label{eq:residual-single-comp}
-\end{equation}
-
- 
- Now we quantify the accuracy of the single-compartment approximation
- by taking the (normalized) integral over 7 membrane time constant of
- the residual trace (see bottom traces in [[fig-single-comp-approx]]B and
- [[fig-single-comp-approx]]C).
-
-\begin{equation}
-C_\mathrm{sc} = \int_{t_0}^{t_0+7 \, \tau_m^0} \frac{dt}{7\,\tau_m^0}
-\mathrm{Res}(t)
-\label{eq:accuracy-coeff-single-comp}
-\end{equation}
-
- The two normalizations (by membrane resistance and membrane time
- constant) were performed to yield comparable quantities for different
- membrane parameters.
-
- We present the histogram of this quantity over the
- cells of the dataset in Figure [[fig-single-comp-approx]]A.
-
-# --> FIGURE <-- #
-#+BEGIN_LATEX
-\begin{figure}[htb!]
-\centering
-\includegraphics[width=.99\linewidth]{../figures/single_comp.pdf}
-\caption{\bfseries Accuracy of the single compartment approximation in the neocortical
-neurons of our recordings.
-\normalfont \textbf{(A)} Histogram of the accuracy coefficient $C_\textrm{sc}$.
-\textbf{(B)} Neuron showing the best accuracy coefficient.
-\textbf{(C)} Neuron showing the worst accuracy coefficient.}
-\label{fig-single-comp-approx}
-\end{figure}
-#+END_LATEX
-
- We conclude that the approximation was satisfactory : the worst case
-in Figure [[fig-single-comp-approx]]C corresponds to a pretty good
-match. 
+#+ATTR_LATEX: :float wrap :width 0.8\textwidth :placement {r}{0.9\textwidth}
+#+CAPTION: *Accuracy of the single compartment approximation in the neocortical neurons of our recordings.* *(A)* Histogram of the accuracy coefficient $C_\textrm{sc}$. *(B)* Neuron showing the best accuracy coefficient. *(C)* Neuron showing the worst accuracy coefficient.
+#+NAME: fig:single-comp
+[[file:./figures/single_comp.pdf]]
 
 \clearpage 
 
@@ -414,10 +337,20 @@ os.system('eog ../figures/single_comp.svg')
 \newpage
 
 
+* Controlling the $V_m$ fluctuations properties
+<<sec:fluctuation-control>>
+
+#+ATTR_LATEX: :placement [hb!]
+#+NAME: fig:approx-allows-control
+#+CAPTION: *Checking whether we can control accurately the V_m fluctuations*. It works well in the subthreshold range, but active currents (proportional to spiking and/or depolarization) as well a the procedure of removing spikes have a strong impact on the V_m fluctuations.
+[[file:./figures/approx_allows_control_of_fluct.pdf]]
+
+
+\newpage 
+
+
 * Finite sampling of a Poisson process :noexport:
-:PROPERTIES:
-:CUSTOM_ID: finite-sampling
-:END:
+<<sec:finite-sampling>>
 
 Three main components could be identified as contributing to the
 measured dispersion of the firing rate dependencies. 1) cellular
@@ -501,20 +434,20 @@ dependency but this provide a reasonable first guess.
   \includegraphics[width=.35\linewidth]{../figures/finite_sampling_k_possible} \\
   \includegraphics[width=.4\linewidth]{../figures/finite_sampling_k_observed}
   \includegraphics[width=.35\linewidth]{../figures/finite_sampling_hist}
-  \caption{\textbf{Quantifying the dispersion due to the 
+  \caption{*Quantifying the dispersion due to the 
       sampling over a finite time of the irregular spiking process.
      Insight from the case of a Poisson process}.\\
-    \textbf{(A)} Let's say that the neuron has a real physical
+    *(A)} Let's say that the neuron has a real physical
     dependency of its threshold to a variable $x$ (here a linear
     dependency $V_\mathrm{thre}^\mathrm{eff}= -50$mV + $(x-1) \cdot 1$
-    mV). \textbf{(B)} The measurement protocol is made of varies 3
+    mV). *(B)} The measurement protocol is made of varies 3
     times the variable $x$, for 2 different seeds and for a recording
     time of $T=$3s. We consider the possible spikes up to 3 standard
     deviations around the most probable observed spike
-    number. \textbf{(C)} Four examples of observations (translated
+    number. *(C)} Four examples of observations (translated
     into the phenomenological threshold anhd with the resulting linear
     fit) with their respective probability (normalized to
-    maximum). \textbf{(D)} Expected dispersion as a consequence of the
+    maximum). *(D)} Expected dispersion as a consequence of the
     finite sampling (evaluated over 50$^3$ observations)}
   \label{fig:finite-sampling-poisson}
 \end{figure}
@@ -524,9 +457,7 @@ dependency but this provide a reasonable first guess.
 
 
 * Accuracy of the template : insight from an analytically solvable situation :noexport:
-:PROPERTIES:
-:CUSTOM_ID: brunel-comp
-:END:
+<<sec:brunel-comp>>
 
 The situation of an Integrate and Fire neuron stimulated by
 delta-synapses can be instructive because we benefit from a very
@@ -550,10 +481,10 @@ input. Then the problem corresponds to a Langevin equation with
 bounded between $V=-\infty$ and the threshold potential
 $V_\mathrm{thre}$. In the stationary case, solving the Fokker-Planck
 (FP) equation with the appropriate conditions\footnote{The integrate
-and fire mechanism corresponds to \textbf{a}) vanishing probabilities
-at the boundaries (Pr$(-\infty)=$Pr$(V_\mathrm{thre})$=0) \textbf{b})
-jump of the probability flux at $V_{reset}$ \textbf{c}) probability
-continuity and \textbf{d}) probability normalization. See
+and fire mechanism corresponds to *a}) vanishing probabilities
+at the boundaries (Pr$(-\infty)=$Pr$(V_\mathrm{thre})$=0) *b})
+jump of the probability flux at $V_{reset}$ *c}) probability
+continuity and *d}) probability normalization. See
 [[cite:Renart2004]] for details} yield the stationary distribution of the
 membrane potential $P(V)$ and the firing rate $\nu_\mathrm{out}$.
 
@@ -589,14 +520,14 @@ membrane potential $P(V)$ and the firing rate $\nu_\mathrm{out}$.
   %   \includegraphics[width=.95\linewidth]{../figures/firing_rate_comp_brunel}
   %   \label{subfig:firing-traces}
   % }
-  \caption{\textbf{Origin of the deviation between the heuristic
+  \caption{*Origin of the deviation between the heuristic
       approximation and the real solution}. Comparing the Fokker
     Planck (FP) solution, the heuristic approximation and numerical
     simulations (see discussion in
-    \ref{sec:brunel-comp}). \textbf{(A)} Membrane potential
+    \ref{sec:brunel-comp}). *(A)} Membrane potential
     distributions in the case of the FP solution
     (\ref{eq-cds-iaf-final}) to the IaF problem (plain line) or
-    the simple gaussian approximation (dashed line) \textbf{(B)}
+    the simple gaussian approximation (dashed line) *(B)}
     Associated estimations for the firing rate as a function of the
     input. The stars corresponds to the points of the upper
     figures. The parameters were $V_\mathrm{thre}$=-50mV,
@@ -627,11 +558,11 @@ realisation.
   %  \includegraphics[width=1\linewidth]{../figures/fpt_wn_insight_varying_\mathrm{m}ean_var}
   %  \includegraphics[width=1\linewidth]{../figures/fpt_wn_insight_varying_\mathrm{m}ean_tau}
   %  \includegraphics[width=1\linewidth]{../figures/fpt_wn_insight_varying_tau_var}
-  \caption{\textbf{Varying the parameters of the membrane potential
+  \caption{*Varying the parameters of the membrane potential
       fluctuations to study the impact on the defined
       \textit{heuristic threshold}}. We fix one variable in the FP
-    solution, $\tau_V$ in \textbf{(A)}, $\sigma_V$ in \textbf{(B)},
-    $\mu_V$ in \textbf{(C)} and we make vary the two others.The plots
+    solution, $\tau_V$ in *(A)}, $\sigma_V$ in *(B)},
+    $\mu_V$ in *(C)} and we make vary the two others.The plots
     correspond to surfaces in a 3D space, we projected those surfaces
     on each of the plane of the coordinate system, in this projection,
     the color (from cold to warm) codes increasing values of the
@@ -704,7 +635,7 @@ dimensional second order polynom.
 # % \ref{eq-template} takes very well into account the impact of the
 # % temporal dynamics of the membrane potential fluctuations. In addition
 # % to the rather simple dependency to $\mu_V$ and $\sigma_V$, this is
-# % what makes this template pretty compelling ! \textbf{trivial !! the
+# % what makes this template pretty compelling ! *trivial !! the
 # %   analytical formula is 1 over tau, to be removed}
 
 # % \section{The \textit{global autocorrelation time} controls spike
@@ -713,9 +644,7 @@ dimensional second order polynom.
 
 
 * Dependency on the first two moments of the membrane potential fluctuations :noexport:
-:PROPERTIES:
-:CUSTOM_ID: muV-sV
-:END:
+<<sec:muV-sV>>
 
 # --> FIGURE <-- #
 #+BEGIN_LATEX
@@ -724,37 +653,37 @@ dimensional second order polynom.
 \caption{
 \bfseries Adapting a simple approximation to construct an analytical
  template for the firing rate response of theoretical models and
- neocortical neurons. \normalfont  \textbf{(A)} Firing rate response of
+ neocortical neurons. \normalfont  *(A)} Firing rate response of
  the IaF neuron in the  ($\mu_V, \sigma_V$) plane, the other variables
  were set to $\tau_V / \tau_\mathrm{m}^0 =45 \%$ and
- $\mu_G / g_\mathrm{L} = 4$  (see real units in \textbf{B}).  
+ $\mu_G / g_\mathrm{L} = 4$  (see real units in *B}).  
 Numerical data (points with errorbars over trials,
  see Methods in \ref{numerical-tools}) and fitted template.
  A first order polynomial of ($\mu_V, \sigma_V$) was fitted
  for $V_\mathrm{thre}^\mathrm{eff}$ (see inset plot) so that when
  plugged into  Equation \ref{eq-template} it captures the firing rate
- response (large plain line). \textbf{(B)} We insure that the
+ response (large plain line). *(B)} We insure that the
  stimulation that
  has been designed in the Methods \ref{stimulation-design}
  actually brings the neuron to the desired values
  of ($\mu_V, \sigma_V, \tau_V, \mu_G$), expected values
- are plain lines. Color code as in \textbf{A}. We performed the same
- numerical simulations than \textbf{A} for the subthreshold dynamics
+ are plain lines. Color code as in *A}. We performed the same
+ numerical simulations than *A} for the subthreshold dynamics
  only (removing the threshold and reset mechanism) and we
  measure the four variables ($\mu_G$ is measured from the
  response to a short current step on top of the background activity,
  hence the noisy  behavior). 
- \textbf{(C)} Firing rate response of a single pyramidal neuron
+ *(C)} Firing rate response of a single pyramidal neuron
 in the ($\mu_V, \sigma_V$) plane. Data points and fit with
 the template Equation \ref{eq-template} (linear \emph{phenomenological 
 theshold} in inset). Errorbars represent standard deviation
  across two trials of different seed
- lasting 5 seconds each. \textbf{(D)} Measurements of the
+ lasting 5 seconds each. *(D)} Measurements of the
  subthreshold variables after having clipped spikes, note that 
 the deviations between desired and measured $\mu_V$, $\sigma_V$
  and $\tau_V$ are stronger for high firing level,
  i.e. potentially result from the bias introduced by 
-the clipping procedure. \textbf{(E)} Firing rate response of three
+the clipping procedure. *(E)} Firing rate response of three
  other neocortical cells in the ($\mu_V, \sigma_V$) plane.
 }
 \label{fig-muV-sV}
@@ -850,9 +779,7 @@ seen for the AdExp-RS neuron (see Figure [[fig-3D-space][6]]).
 
 
 * Dependency on the speed of the subthreshold fluctuations :noexport:
-:PROPERTIES:
-:CUSTOM_ID: Tv
-:END:
+<<sec:Tv>>
 
 # --> FIGURE <-- #
 #+BEGIN_LATEX
@@ -861,23 +788,23 @@ seen for the AdExp-RS neuron (see Figure [[fig-3D-space][6]]).
 \includegraphics[width=.4\linewidth]{fig4.pdf}
 \caption{
 \bfseries Sensitivity to the speed of the membrane potential fluctuations.
- \normalfont \textbf{(A)} Firing rate response as a function of
+ \normalfont *(A)} Firing rate response as a function of
  slower fluctuations speed (increasing $\tau_V$) for 3 different models:
  the IaF model, the EIF model and the iLIF model. Their respective threshold
  have been changed to give them comparable excitabilities.
- \textbf{(B)} Mean, variance, 
+ *(B)} Mean, variance, 
  input conductance and \emph{global} autocorrelation time of
  the subthreshold  fluctuations in absence of a spike
  mechanism. A shift in the mean membrane potential
  has been made to bring the different neurons around
- the same firing rate level. \textbf{(C)} Firing rate
+ the same firing rate level. *(C)} Firing rate
  dependency on the autocorrelation time for different
  pyramidal neurons and for different combinations
  of input. Experiments are indexed as a function
- of the mean output rate \textbf{(D)} Measured mean, variance
+ of the mean output rate *(D)} Measured mean, variance
  and global autocorrelation time after clipping
  spikes for the experiments shown in
- \textbf{C} (same color code). Within one experiment, the
+ *C} (same color code). Within one experiment, the
  couple ($\mu_V, \sigma_V$) should remain constant while
  $\tau_V$ should increase according to
  the dashed line. A strong shift is observed but the dependency of the deviations
@@ -885,13 +812,13 @@ seen for the AdExp-RS neuron (see Figure [[fig-3D-space][6]]).
 (see the color code, from red to 
  blue the firing rate raises as the deviations from the
  desired $\tau_V$).
- \textbf{(F)} Effective threshold
- for all data of \textbf{C} with the linear fit
- corresponding to Equation \ref{eq-Tv-shift}. \textbf{(F)} Histogram
+ *(F)} Effective threshold
+ for all data of *C} with the linear fit
+ corresponding to Equation \ref{eq-Tv-shift}. *(F)} Histogram
  of the experimentally measured dependency
  of $V_\mathrm{thre}^\mathrm{eff}$ to $\tau_V$
  (i.e. $P_{\tau_V}$ coefficient) and comparison with
- the dependency of the models of \textbf{A}.}
+ the dependency of the models of *A}.}
 \label{fig-Tv}
 \end{figure}
 #+END_LATEX
@@ -1000,9 +927,7 @@ We introduce:
 
 
 * Dependency on the somatic input conductance :noexport:
-:PROPERTIES:
-:CUSTOM_ID: muG
-:END:
+<<sec:muG>>
 
 #+BEGIN_LATEX
 \begin{figure}[htb!]
@@ -1010,30 +935,30 @@ We introduce:
 \includegraphics[width=.5\linewidth]{fig3.pdf}
 \caption{\bfseries Increasing somatic input conductance shunts the
  sodium current and reduces spiking probability. 
-\normalfont \textbf{(A)} Firing rate response as a
+\normalfont *(A)} Firing rate response as a
  response to the input varying only the total somatic
  conductance $\mu_G$ for the EIF model with three different
- spike shaprness \textbf{(B)} Insuring that the stimulation
+ spike shaprness *(B)} Insuring that the stimulation
  works. Mean, variance, input conductance and
  \textit{global autocorrelation time} of the subthreshold
  fluctuations in absence of a spike mechanism. A shift
  in the mean membrane potential has been made to bring
  the different neurons around the same firing rate
  level (they have quite different sensitivity
- levels). \textbf{(C)} Firing rate dependency on the total
+ levels). *(C)} Firing rate dependency on the total
  conductance for different pyramidal neurons and for different
  combinations of input. Experiments are indexed as a function
- of the mean output rate \textbf{(D)} Measured mean, variance
+ of the mean output rate *(D)} Measured mean, variance
  and global autocorrelation time after clipping spikes
- for the experiments shown in \textbf{C} (same color code). Within
+ for the experiments shown in *C} (same color code). Within
  one experiment, the set of  ($\mu_V, \sigma_V, \tau_V$) should
- remain constant.\textbf{(F)} Effective threshold for all data
- of \textbf{C} with the affine fit corresponding
- to Equation \ref{eq-muG-shift}. \textbf{(F)} Histogram of the
+ remain constant.*(F)} Effective threshold for all data
+ of *C} with the affine fit corresponding
+ to Equation \ref{eq-muG-shift}. *(F)} Histogram of the
  experimentally measured dependency
  of $V_\mathrm{thre}^\mathrm{eff}$ to $\mu_G$ (i.e.
  $P_{\mu_G}$ coefficient) and comparison with the dependency
- of the three models of \textbf{A}.}
+ of the three models of *A}.}
 \label{fig-muG}
 \end{figure}
 #+END_LATEX
@@ -1098,9 +1023,7 @@ population.
 
 
 * Interplay of a conductance increase and faster fluctuations :noexport:
-:PROPERTIES:
-:CUSTOM_ID: muG-Tv
-:END:
+<<sec:muG-Tv>>
 
 # --> FIGURE <-- #
 #+BEGIN_LATEX
@@ -1108,30 +1031,30 @@ population.
 \centering
 \includegraphics[width=.5\linewidth]{fig5.pdf}
 \caption{
- \textbf{Firing rate as a response to an increasing input conductance
+ *Firing rate as a response to an increasing input conductance
  and a decreasing membrane potential fluctuations speed.}
- \textbf{(A)} Firing rate response 
+ *(A)} Firing rate response 
  for  the EIF model with three different
 spike sharpness ($k_a=0\mathrm{mV}$ IaF, $k_a=1\mathrm{mV}$ 
 and $k_a=2\mathrm{mV}$). The \emph{phenomenological threshold}
 can be seen in the inset.
- \textbf{(B)} Mean, variance, 
+ *(B)} Mean, variance, 
 input conductance and
 \emph{global} autocorrelation time of the subthreshold
 fluctuations in absence of a spike mechanism. A shift in the mean
 membrane potential has been made to bring the different neurons
 around the same firing rate level. In the inset, the autocorrelation 
 function are visible as a function of the input conductance (color code)
-\textbf{(C)} Response of different
+*(C)} Response of different
 neocortical neurons around $\sigma_V=5\mathrm{mV}$, 
 $\tau_S / \tau_\mathrm{m}^0=15 \%$. The $\mu_V$ level was adjusted 
 to bring the neuron in the 0-15 Hz domain.
- \textbf{(D)} Subthreshold variables when clipping
+ *(D)} Subthreshold variables when clipping
 spikes, here $\tau_V/\tau_m^0 = \tau_S/\tau_m^0 + 1/\mu_G$ 
-\textbf{(E)}
+*(E)}
 Corresponding effective thresholds. The dashed line corresponds to
 the mean observed dependency.
-\textbf{(F)} Histogram of the dependencis see in \textbf{E} with 
+*(F)} Histogram of the dependencis see in *E} with 
 the dependencies of the theoretical models}
 \label{fig-muG-Tv}
 \end{figure}
@@ -1246,9 +1169,7 @@ See Section \ref{3D-space-response} \normalfont .}
 
 
 * Analysis of the fitted coefficients :noexport:
-:PROPERTIES:
-:CUSTOM_ID: fitting-coefficients
-:END:
+<<sec:fitting-coefficients>>
 
 # --> FIGURE <-- #
 #+BEGIN_LATEX
@@ -1257,7 +1178,7 @@ See Section \ref{3D-space-response} \normalfont .}
 \includegraphics[width=\linewidth]{fig_3d_coeff.pdf}
 \caption{\bfseries Fitted coefficients for theoretical 
 models and individual cells (generating Figure \ref{fig-3D}).
-\normalfont \textbf{(A)} PCA analysis of data. 
+\normalfont *(A)} PCA analysis of data. 
 \textbf{(B)} Cross product of first component of the data
 with those of theoretical models of varying parameters.}
 \label{fig-heterogeneity}
@@ -1503,9 +1424,7 @@ fig.savefig('../figures/fitting_robustness2.pdf')
 
 
 * Comparison of different strategy to capture the firing rate response :noexport:
-:PROPERTIES:
-:CUSTOM_ID: other-strategies
-:END:
+<<sec:other-strategies>>
 
 # \begin{enumerate}
 # \item The constant driving force approximation.\\
@@ -1534,9 +1453,7 @@ fig.savefig('../figures/fitting_robustness2.pdf')
 
 
 * Higher order terms in the stimulation :noexport:
-:PROPERTIES:
-:CUSTOM_ID: higher-order-in stim
-:END:
+<<sec:higher-order-in stim>>
 
 Figure with PSP event shapes where we illustrate that for the IaF
 neuron, you slightly increase the firing probability for the high
@@ -2581,18 +2498,6 @@ os.system('eog ../figures/single_comp.svg')
 
 
 \newpage
-
-
-** Controlling the $V_m$ fluctuations properties :noexport:
-<<sec:fluctuation-control>>
-
-#+ATTR_LATEX: :placement [hb!]
-#+NAME: fig:approx-allows-control
-#+CAPTION: *Checking whether we can control accurately the V_m fluctuations*. It works well in the subthreshold range, but active currents (proportional to spiking and/or depolarization) as well a the procedure of removing spikes have a strong impact on the V_m fluctuations.
-[[file:./figures/approx_allows_control_of_fluct.png]]
-
-
-\newpage 
 
 
 ** A linear /phenomenological threshold/ allows an accurate characterization of the firing rate response
