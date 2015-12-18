@@ -337,7 +337,7 @@ os.system('eog ../figures/single_comp.svg')
 \newpage
 
 
-* Controlling the $V_m$ fluctuations properties
+* Controlling the V_m fluctuations properties
 <<sec:fluctuation-control>>
 
 #+ATTR_LATEX: :placement [hb!]
@@ -346,7 +346,7 @@ os.system('eog ../figures/single_comp.svg')
 [[file:./figures/approx_allows_control_of_fluct.pdf]]
 
 
-\newpage 
+\clearpage 
 
 
 * Finite sampling of a Poisson process :noexport:
@@ -456,15 +456,14 @@ dependency but this provide a reasonable first guess.
 \clearpage
 
 
-* Accuracy of the template : insight from an analytically solvable situation :noexport:
+* Accuracy of the template : insight from an analytically solvable situation
 <<sec:brunel-comp>>
 
 The situation of an Integrate and Fire neuron stimulated by
 delta-synapses can be instructive because we benefit from a very
 accurate analytical approximation in our regime of interest
 [[cite:Amit1997]]. We will use this model to investigate the properties
-and limitations of the \textit{crude approximation} for the firing
-rate. \\
+and limitations of the approximation for the firing rate.
 
 We stimulate a neuron with a Poisson process of frequency
 $\nu_\mathrm{in}$, where each event triggers a jump of membrane
