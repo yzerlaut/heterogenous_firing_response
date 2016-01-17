@@ -1,6 +1,6 @@
 
 \blfootnote{ $\,^1$ Unité de Neurosciences, Information et Complexité, Centre National de la Recherche Scientifique, FRE 3693, Gif sur Yvette, France}
-\blfootnote{ $\,^2$ European Institute fo Theoretical Neuroscience, 74 Rue du Faubourg Saint-Antoine, 75012 Paris}
+\blfootnote{ $\,^2$ European Institute for Theoretical Neuroscience, 74 Rue du Faubourg Saint-Antoine, 75012 Paris}
 
 \blfootnote{correspondance : destexhe@unic.cnrs-gif.fr}
 
